@@ -12,24 +12,23 @@ use App\Http\Controllers\BarangController;
 // ======================
 // HALAMAN UTAMA
 // ======================
-Route::view('/', 'home');
-Route::view('/home', 'home')->name('home');
-Route::view('/about', 'about')->name('about');
+Route::view('/', 'pages.home')->name('home');
+Route::view('/home', 'pages.home')->name('home');
+Route::view('/about', 'pages.about')->name('about');
 
 // ======================
-// AUTH
+// Pages
 // ======================
-Route::view('/login', 'login')->name('login');
-Route::view('/register', 'register')->name('register');
+Route::view('/login', 'pages.login')->name('login');
+Route::view('/register', 'pages.register')->name('register');
 
 // ======================
 // DASHBOARD & FITUR
 // ======================
-Route::view('/dashboard', 'dashboard')->name('dashboard');
-Route::view('/siswa', 'siswa')->name('siswa');
-Route::view('/guru', 'guru')->name('guru');
-Route::view('/mapel', 'mapel')->name('mapel');
-
+Route::view('/dashboard', 'pages.dashboard')->name('dashboard');
+Route::view('/siswa', 'pages.siswa')->name('siswa');
+Route::view('/guru', 'pages.guru')->name('guru');
+Route::view('/mapel', 'pages.mapel')->name('mapel');
 // ======================
 // DATA / MODULE
 // ======================
