@@ -9,9 +9,9 @@
 
             /* Background sama seperti home */
             background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)),
-                        url('{{ asset('img/polibatam.jpg') }}');
-            background-size: cover;
-            background-position: center;
+                        url('{{ asset(/polibatamjpg') }
+            background-size cover
+            background-position center
         
 
         /* NAVBAR */
