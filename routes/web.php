@@ -36,3 +36,18 @@ Route::view('/nilai', 'pages.nilai')->name('nilai'); // 🔥 penting
 Route::get('/rapor/{id}/pdf', function ($id) {
     return "Download Rapor PDF Siswa ID: " . $id;
 });
+
+// ======================
+// SISWA (SIMULASI CRUD)
+// ======================
+Route::get('/siswa/tambah', function () {
+    return view('pages.tambah_siswa');
+});
+
+Route::get('/siswa/edit', function () {
+    return view('pages.edit_siswa');
+});
+
+Route::get('/siswa/hapus', function () {
+    return "Data siswa berhasil dihapus (simulasi)";
+});
