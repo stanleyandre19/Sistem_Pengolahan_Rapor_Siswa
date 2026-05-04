@@ -58,7 +58,7 @@ Route::get('/guru/tambah', function () {
 // ======================
 // DATA LAIN (MASIH STATIC DULU)
 // ======================
-Route::view('/guru', 'pages.guru')->name('guru');
+
 Route::view('/mapel', 'pages.mapel')->name('mapel');
 Route::view('/nilai', 'pages.nilai')->name('nilai');
 
