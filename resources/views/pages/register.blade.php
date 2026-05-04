@@ -38,6 +38,7 @@
         <select
             class="w-full mt-1 p-2 border border-gray-300 rounded-lg bg-white outline-none">
             <option>Pilih User</option>
+            <option>Admin</option>
             <option>Guru</option>
             <option>Walikelas</option>
         </select>
