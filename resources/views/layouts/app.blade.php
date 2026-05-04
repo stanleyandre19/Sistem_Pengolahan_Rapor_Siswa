@@ -9,19 +9,21 @@
 
 <body class="bg-gray-100 flex min-h-screen text-gray-800">
 
-    <!-- SIDEBAR COMPONENT -->
+    <!-- SIDEBAR -->
     <x-sidebar />
 
-    <!-- MAIN CONTENT -->
     <main class="flex-1 flex flex-col">
 
-        <!-- NAVBAR COMPONENT -->
+        <!-- NAVBAR -->
         <x-navbar />
 
-        <!-- CONTENT HALAMAN -->
+        <!-- CONTENT -->
         <div class="p-10">
             @yield('content')
         </div>
+
+        <!-- FOOTER -->
+        <x-footer />
 
     </main>
 
