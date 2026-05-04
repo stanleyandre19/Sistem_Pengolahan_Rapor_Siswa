@@ -6,14 +6,25 @@
 
     <nav class="flex-1 px-4 space-y-2">
 
-        <a href="#" class="block px-4 py-3 rounded-xl hover:bg-gray-100">Dashboard</a>
+        <a href="/dashboard"
+           class="block px-4 py-3 rounded-xl hover:bg-gray-100">
+            Dashboard
+        </a>
 
-        <a href="#" class="block px-4 py-3 bg-blue-600 text-white rounded-xl font-bold">
+        <a href="/guru"
+           class="block px-4 py-3 rounded-xl hover:bg-gray-100">
             Guru
         </a>
 
-        <a href="#" class="block px-4 py-3 rounded-xl hover:bg-gray-100">Siswa</a>
-        <a href="#" class="block px-4 py-3 rounded-xl hover:bg-gray-100">Mapel</a>
+        <a href="/siswa"
+           class="block px-4 py-3 rounded-xl hover:bg-gray-100">
+            Siswa
+        </a>
+
+        <a href="/mapel"
+           class="block px-4 py-3 rounded-xl hover:bg-gray-100">
+            Mapel
+        </a>
 
     </nav>
 
