@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SiswaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // ======================
-// HALAMAN PUBLIC (TIDAK LOGIN)
+// HALAMAN PUBLIC
 // ======================
 Route::view('/', 'pages.home')->name('home');
 Route::view('/home', 'pages.home');
@@ -20,34 +21,35 @@ Route::view('/register', 'pages.register')->name('register');
 
 
 // ======================
-// HALAMAN SETELAH LOGIN
+// DASHBOARD
 // ======================
 Route::view('/dashboard', 'pages.dashboard')->name('dashboard');
 
-Route::view('/siswa', 'pages.siswa')->name('siswa');
-Route::view('/guru', 'pages.guru')->name('guru');
-Route::view('/mapel', 'pages.mapel')->name('mapel');
-Route::view('/nilai', 'pages.nilai')->name('nilai'); // 🔥 penting
-
 
 // ======================
-// FITUR RAPOR (SESUAI DOSEN)
+// DATA SISWA (REAL CRUD)
 // ======================
-Route::get('/rapor/{id}/pdf', function ($id) {
-    return "Download Rapor PDF Siswa ID: " . $id;
-});
+Route::get('/siswa', [SiswaController::class, 'index']);
+Route::post('/siswa', [SiswaController::class, 'store']);
+Route::get('/siswa/hapus/{id}', [SiswaController::class, 'destroy']);
 
-// ======================
-// SISWA (SIMULASI CRUD)
-// ======================
+// halaman tambah
 Route::get('/siswa/tambah', function () {
     return view('pages.tambah_siswa');
 });
 
-Route::get('/siswa/edit', function () {
-    return view('pages.edit_siswa');
-});
 
-Route::get('/siswa/hapus', function () {
-    return "Data siswa berhasil dihapus (simulasi)";
+// ======================
+// DATA LAIN (MASIH STATIC DULU)
+// ======================
+Route::view('/guru', 'pages.guru')->name('guru');
+Route::view('/mapel', 'pages.mapel')->name('mapel');
+Route::view('/nilai', 'pages.nilai')->name('nilai');
+
+
+// ======================
+// RAPOR PDF
+// ======================
+Route::get('/rapor/{id}/pdf', function ($id) {
+    return "Download Rapor PDF Siswa ID: " . $id;
 });

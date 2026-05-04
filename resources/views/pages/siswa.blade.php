@@ -6,7 +6,6 @@
 
 <div class="bg-white p-6 rounded-xl shadow-sm border">
 
-    <!-- TOMBOL TAMBAH -->
     <a href="/siswa/tambah"
        class="mb-4 inline-block bg-blue-500 text-white px-4 py-2 rounded">
        + Tambah Siswa
@@ -24,25 +23,27 @@
         </thead>
 
         <tbody>
+            @foreach($data as $s)
             <tr class="border-b">
-                <td class="p-3">1</td>
-                <td class="p-3">Andi</td>
-                <td class="p-3">12345</td>
-                <td class="p-3">Kelas 5A</td>
+                <td class="p-3">{{ $loop->iteration }}</td>
+                <td class="p-3">{{ $s->nama }}</td>
+                <td class="p-3">{{ $s->nis }}</td>
+                <td class="p-3">{{ $s->kelas }}</td>
                 <td class="p-3 space-x-2">
 
-                    <a href="/siswa/edit"
+                    <a href="/siswa/edit/{{ $s->id }}"
                        class="bg-yellow-400 px-3 py-1 rounded text-white text-xs">
                         Edit
                     </a>
 
-                    <a href="/siswa/hapus"
+                    <a href="/siswa/hapus/{{ $s->id }}"
                        class="bg-red-500 px-3 py-1 rounded text-white text-xs">
                         Hapus
                     </a>
 
                 </td>
             </tr>
+            @endforeach
         </tbody>
     </table>
 
