@@ -1,7 +1,7 @@
 <header class="bg-white border-b border-gray-200 px-10 py-4 flex justify-between items-center shadow-sm">
 
     <h1 class="text-lg font-bold text-gray-700">
-        Sistem Pengelolaan Rapor Siswa
+        Sistem Pengolahan Rapor Siswa
     </h1>
 
     <div class="flex items-center gap-6">
