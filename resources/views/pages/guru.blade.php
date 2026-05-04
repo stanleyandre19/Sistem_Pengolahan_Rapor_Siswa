@@ -4,7 +4,7 @@
 
 <div x-data="{ open: false }">
 
-    <!-- JUDUL + BUTTON -->
+    <!-- HEADER -->
     <div class="flex justify-between items-center mb-4">
         <h1 class="text-xl font-bold">Data Guru</h1>
 
@@ -35,8 +35,17 @@
                     <td class="p-3">{{ $g->nama }}</td>
                     <td class="p-3">{{ $g->nip }}</td>
                     <td class="p-3">{{ $g->mapel }}</td>
-                    <td class="p-3">
 
+                    <!-- AKSI -->
+                    <td class="p-3 space-x-2">
+
+                        <!-- EDIT -->
+                        <a href="/guru/edit/{{ $g->id }}"
+                           class="bg-yellow-400 px-3 py-1 rounded text-white text-xs">
+                            Edit
+                        </a>
+
+                        <!-- HAPUS -->
                         <a href="/guru/hapus/{{ $g->id }}"
                            class="bg-red-500 px-3 py-1 rounded text-white text-xs">
                             Hapus
@@ -51,20 +60,18 @@
 
     </div>
 
-    <!-- MODAL POPUP -->
+    <!-- MODAL TAMBAH GURU -->
     <div x-show="open"
          class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
          style="display:none">
 
         <div class="bg-white p-6 rounded-xl w-full max-w-md">
 
-            <!-- HEADER MODAL -->
             <div class="flex justify-between mb-4">
                 <h2 class="text-lg font-bold">Tambah Guru</h2>
                 <button @click="open = false" class="text-xl">×</button>
             </div>
 
-            <!-- FORM -->
             <form action="/guru" method="POST" class="space-y-3">
                 @csrf
 
