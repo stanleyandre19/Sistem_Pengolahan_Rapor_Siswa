@@ -4,42 +4,30 @@
     <title>Rapor Siswa</title>
     <style>
         body { font-family: Arial; }
-        h2 { text-align: center; }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: center;
-        }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 8px; text-align: center; }
     </style>
 </head>
 <body>
 
 <h2>RAPOR SISWA</h2>
 
-<p><b>Nama:</b> {{ $data->nama_siswa }}</p>
-<p><b>Mapel:</b> {{ $data->mapel }}</p>
+<p>Nama: {{ $siswa->nama }}</p>
+<p>Kelas: {{ $siswa->kelas }}</p>
 
 <table>
     <tr>
-        <th>Tugas</th>
-        <th>UTS</th>
-        <th>UAS</th>
+        <th>Mapel</th>
         <th>Nilai Akhir</th>
     </tr>
 
+    @foreach($nilai as $n)
     <tr>
-        <td>{{ $data->tugas }}</td>
-        <td>{{ $data->uts }}</td>
-        <td>{{ $data->uas }}</td>
-        <td><b>{{ number_format($data->nilai_akhir,2) }}</b></td>
+        <td>{{ $n->mapel }}</td>
+        <td>{{ $n->nilai_akhir }}</td>
     </tr>
+    @endforeach
+
 </table>
 
 </body>

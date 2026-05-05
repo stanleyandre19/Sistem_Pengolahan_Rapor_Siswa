@@ -3,14 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\SiswaController;
+use App\Models\Siswa;
 use App\Models\Nilai;
 use Barryvdh\DomPDF\Facade\Pdf;
-
-/*
-|--------------------------------------------------------------------------
-| WEB ROUTES - SISTEM RAPOR SISWA SD
-|--------------------------------------------------------------------------
-*/
 
 // ======================
 // HALAMAN PUBLIC
@@ -24,13 +19,16 @@ Route::view('/register', 'pages.register')->name('register');
 
 
 // ======================
-// DASHBOARD
+// DASHBOARD (🔥 SUDAH DINAMIS)
 // ======================
-Route::view('/dashboard', 'pages.dashboard')->name('dashboard');
+Route::get('/dashboard', function () {
+    $data = Siswa::all();
+    return view('pages.dashboard', compact('data'));
+})->name('dashboard');
 
 
 // ======================
-// CRUD SISWA (FULL)
+// CRUD SISWA
 // ======================
 Route::get('/siswa', [SiswaController::class, 'index']);
 Route::post('/siswa', [SiswaController::class, 'store']);
@@ -46,7 +44,7 @@ Route::get('/siswa/hapus/{id}', [SiswaController::class, 'destroy']);
 
 
 // ======================
-// NILAI (INPUT + HITUNG)
+// NILAI
 // ======================
 Route::get('/nilai', function () {
     $data = Nilai::all();
@@ -55,7 +53,6 @@ Route::get('/nilai', function () {
 
 Route::post('/nilai/simpan', function (Request $request) {
 
-    // 🔥 RUMUS NILAI
     $nilai_akhir = ($request->tugas * 0.4) 
                  + ($request->uts * 0.3) 
                  + ($request->uas * 0.3);
@@ -81,17 +78,19 @@ Route::view('/mapel', 'pages.mapel')->name('mapel');
 
 
 // ======================
-// RAPOR PDF (🔥 SUDAH JADI FILE PDF)
+// RAPOR PDF (🔥 FIX SESUAI SISWA)
 // ======================
 Route::get('/rapor/{id}/pdf', function ($id) {
 
-    $data = Nilai::find($id);
+    $siswa = Siswa::find($id);
 
-    if (!$data) {
-        return "Data tidak ditemukan";
+    if (!$siswa) {
+        return "Siswa tidak ditemukan";
     }
 
-    $pdf = Pdf::loadView('pages.rapor_pdf', compact('data'));
+    $nilai = Nilai::where('nama_siswa', $siswa->nama)->get();
 
-    return $pdf->download('rapor-'.$data->nama_siswa.'.pdf');
+    $pdf = Pdf::loadView('pages.rapor_pdf', compact('siswa', 'nilai'));
+
+    return $pdf->download('rapor-'.$siswa->nama.'.pdf');
 });
