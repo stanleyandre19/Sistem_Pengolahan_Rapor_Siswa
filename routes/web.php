@@ -1,7 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use App\Http\Controllers\SiswaController;
+use App\Models\Nilai;
+
+/*
+|--------------------------------------------------------------------------
+| WEB ROUTES - SISTEM RAPOR SISWA SD
+|--------------------------------------------------------------------------
+*/
 
 // ======================
 // HALAMAN PUBLIC
@@ -37,11 +45,38 @@ Route::get('/siswa/hapus/{id}', [SiswaController::class, 'destroy']);
 
 
 // ======================
+// NILAI (🔥 PENTING BANGET)
+// ======================
+Route::get('/nilai', function () {
+    $data = Nilai::all();
+    return view('pages.nilai', compact('data'));
+});
+
+Route::post('/nilai/simpan', function (Request $request) {
+
+    // 🔥 RUMUS NILAI
+    $nilai_akhir = ($request->tugas * 0.4) 
+                 + ($request->uts * 0.3) 
+                 + ($request->uas * 0.3);
+
+    Nilai::create([
+        'nama_siswa' => $request->nama_siswa,
+        'mapel' => $request->mapel,
+        'tugas' => $request->tugas,
+        'uts' => $request->uts,
+        'uas' => $request->uas,
+        'nilai_akhir' => $nilai_akhir,
+    ]);
+
+    return redirect('/nilai');
+});
+
+
+// ======================
 // HALAMAN LAIN
 // ======================
 Route::view('/guru', 'pages.guru')->name('guru');
 Route::view('/mapel', 'pages.mapel')->name('mapel');
-Route::view('/nilai', 'pages.nilai')->name('nilai');
 
 
 // ======================
