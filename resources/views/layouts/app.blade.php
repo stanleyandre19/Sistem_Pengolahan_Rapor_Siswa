@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rapor.id</title>
+
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -12,14 +14,19 @@
     <!-- SIDEBAR -->
     <x-sidebar />
 
-    <main class="flex-1 flex flex-col">
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 flex flex-col bg-gray-50">
 
         <!-- NAVBAR -->
         <x-navbar />
 
         <!-- CONTENT -->
-        <div class="p-10">
-            @yield('content')
+        <div class="p-6 md:p-8">
+            <div class="max-w-6xl mx-auto space-y-6">
+
+                @yield('content')
+
+            </div>
         </div>
 
         <!-- FOOTER -->

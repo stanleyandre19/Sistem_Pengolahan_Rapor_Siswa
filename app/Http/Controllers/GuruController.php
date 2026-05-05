@@ -2,45 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Guru;
 use Illuminate\Http\Request;
+use App\Models\Guru;
 
 class GuruController extends Controller
 {
-    // TAMPIL DATA
     public function index()
     {
-        $guru = Guru::all();
-        return view('pages.guru', compact('guru'));
+        $data = Guru::all();
+        return view('pages.guru', compact('data'));
     }
 
-    // SIMPAN DATA
     public function store(Request $request)
     {
-        $request->validate([
-            'nama' => 'required',
-            'nip' => 'required',
-            'mapel' => 'required',
-        ]);
-
-        Guru::create([
-            'nama' => $request->nama,
-            'nip' => $request->nip,
-            'mapel' => $request->mapel,
-        ]);
-
-        return redirect('/guru')->with('success', 'Data guru berhasil ditambahkan');
+        Guru::create($request->all());
+        return redirect('/guru');
     }
 
-    // HAPUS DATA
-    public function destroy($id)
+    public function edit($id)
+    {
+        $data = Guru::find($id);
+        return view('pages.edit_guru', compact('data'));
+    }
+
+    public function update(Request $request, $id)
     {
         $guru = Guru::find($id);
+        $guru->update($request->all());
 
-        if ($guru) {
-            $guru->delete();
-        }
+        return redirect('/guru');
+    }
 
-        return redirect('/guru')->with('success', 'Data guru berhasil dihapus');
+    public function destroy($id)
+    {
+        Guru::destroy($id);
+        return redirect('/guru');
     }
 }

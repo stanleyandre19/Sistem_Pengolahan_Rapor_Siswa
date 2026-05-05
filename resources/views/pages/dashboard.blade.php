@@ -4,27 +4,34 @@
 
 <div class="space-y-6">
 
+    <!-- JUDUL -->
     <div>
         <h1 class="text-2xl font-bold text-gray-800">Dashboard Guru</h1>
         <p class="text-sm text-gray-500">Pengolahan Rapor Siswa SD</p>
     </div>
 
     <!-- CARD -->
-    <div class="grid grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
         <div class="bg-blue-100 p-5 rounded-xl">
-            <p>Jumlah Siswa</p>
-            <h2 class="text-2xl font-bold">{{ $data->count() }}</h2>
+            <p class="text-sm text-blue-700">Jumlah Siswa</p>
+            <h2 class="text-2xl font-bold text-blue-800 mt-2">
+                {{ $jumlah_siswa }}
+            </h2>
         </div>
 
         <div class="bg-green-100 p-5 rounded-xl">
-            <p>Jumlah Guru</p>
-            <h2 class="text-2xl font-bold">-</h2>
+            <p class="text-sm text-green-700">Jumlah Guru</p>
+            <h2 class="text-2xl font-bold text-green-800 mt-2">
+                {{ $jumlah_guru }}
+            </h2>
         </div>
 
         <div class="bg-yellow-100 p-5 rounded-xl">
-            <p>Pelajaran</p>
-            <h2 class="text-2xl font-bold">-</h2>
+            <p class="text-sm text-yellow-700">Pelajaran</p>
+            <h2 class="text-2xl font-bold text-yellow-800 mt-2">
+                {{ $jumlah_mapel }}
+            </h2>
         </div>
 
     </div>
