@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\SiswaController;
 use App\Models\Nilai;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,7 +46,7 @@ Route::get('/siswa/hapus/{id}', [SiswaController::class, 'destroy']);
 
 
 // ======================
-// NILAI (🔥 PENTING BANGET)
+// NILAI (INPUT + HITUNG)
 // ======================
 Route::get('/nilai', function () {
     $data = Nilai::all();
@@ -80,8 +81,17 @@ Route::view('/mapel', 'pages.mapel')->name('mapel');
 
 
 // ======================
-// RAPOR PDF (SISWA TIDAK LOGIN)
+// RAPOR PDF (🔥 SUDAH JADI FILE PDF)
 // ======================
 Route::get('/rapor/{id}/pdf', function ($id) {
-    return "Download Rapor PDF Siswa ID: " . $id;
+
+    $data = Nilai::find($id);
+
+    if (!$data) {
+        return "Data tidak ditemukan";
+    }
+
+    $pdf = Pdf::loadView('pages.rapor_pdf', compact('data'));
+
+    return $pdf->download('rapor-'.$data->nama_siswa.'.pdf');
 });
