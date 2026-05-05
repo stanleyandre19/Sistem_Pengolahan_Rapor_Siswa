@@ -2,89 +2,114 @@
 
 @section('content')
 
-<div class="space-y-6">
+<div class="max-w-6xl mx-auto space-y-6">
 
-    <!-- JUDUL -->
+    <!-- HEADER -->
     <div>
         <h1 class="text-2xl font-bold text-gray-800">Dashboard Guru</h1>
         <p class="text-sm text-gray-500">Pengolahan Rapor Siswa SD</p>
     </div>
 
-    <!-- CARD -->
+    <!-- CARD STAT -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-        <div class="bg-blue-100 p-5 rounded-xl">
+        <div class="bg-blue-100 p-5 rounded-xl shadow-sm hover:shadow transition">
             <p class="text-sm text-blue-700">Jumlah Siswa</p>
-            <h2 class="text-2xl font-bold text-blue-800 mt-2">
+            <h2 class="text-3xl font-bold text-blue-800 mt-2">
                 {{ $jumlah_siswa }}
             </h2>
         </div>
 
-        <div class="bg-green-100 p-5 rounded-xl">
+        <div class="bg-green-100 p-5 rounded-xl shadow-sm hover:shadow transition">
             <p class="text-sm text-green-700">Jumlah Guru</p>
-            <h2 class="text-2xl font-bold text-green-800 mt-2">
+            <h2 class="text-3xl font-bold text-green-800 mt-2">
                 {{ $jumlah_guru }}
             </h2>
         </div>
 
-        <div class="bg-yellow-100 p-5 rounded-xl">
-            <p class="text-sm text-yellow-700">Pelajaran</p>
-            <h2 class="text-2xl font-bold text-yellow-800 mt-2">
+        <div class="bg-yellow-100 p-5 rounded-xl shadow-sm hover:shadow transition">
+            <p class="text-sm text-yellow-700">Jumlah Mapel</p>
+            <h2 class="text-3xl font-bold text-yellow-800 mt-2">
                 {{ $jumlah_mapel }}
             </h2>
         </div>
 
     </div>
 
-    <!-- TABEL -->
-    <div class="bg-white p-6 rounded-xl shadow-sm border">
+    <!-- TABEL SISWA -->
+    <div class="bg-white rounded-xl shadow border overflow-hidden">
 
-        <a href="/siswa/tambah"
-           class="mb-4 inline-block bg-blue-500 text-white px-4 py-2 rounded">
-           + Tambah Siswa
-        </a>
+        <div class="flex justify-between items-center p-4 border-b">
+            <h2 class="font-semibold text-gray-700">Data Siswa</h2>
 
-        <table class="w-full text-sm">
+            <a href="/siswa/tambah"
+               class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm">
+               + Tambah
+            </a>
+        </div>
 
-            <thead>
-                <tr class="bg-gray-100">
-                    <th class="p-3">No</th>
-                    <th class="p-3">Nama</th>
-                    <th class="p-3">NIS</th>
-                    <th class="p-3">Kelas</th>
-                    <th class="p-3">Aksi</th>
+        <table class="w-full text-sm text-left">
+
+            <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
+                <tr>
+                    <th class="px-4 py-3 text-center w-12">No</th>
+                    <th class="px-4 py-3">Nama</th>
+                    <th class="px-4 py-3">NIS</th>
+                    <th class="px-4 py-3">Kelas</th>
+                    <th class="px-4 py-3 text-center w-56">Aksi</th>
                 </tr>
             </thead>
 
-            <tbody>
+            <tbody class="divide-y">
 
-            @foreach($data as $s)
-            <tr class="border-b">
-                <td class="p-3">{{ $loop->iteration }}</td>
-                <td class="p-3">{{ $s->nama }}</td>
-                <td class="p-3">{{ $s->nis }}</td>
-                <td class="p-3">{{ $s->kelas }}</td>
+                @forelse($data as $s)
+                <tr class="hover:bg-gray-50">
 
-                <td class="p-3 space-x-2">
+                    <td class="px-4 py-3 text-center font-medium">
+                        {{ $loop->iteration }}
+                    </td>
 
-                    <a href="/siswa/edit/{{ $s->id }}"
-                       class="bg-yellow-400 px-3 py-1 rounded text-white text-xs">
-                        Edit
-                    </a>
+                    <td class="px-4 py-3 font-medium">
+                        {{ ucwords($s->nama) }}
+                    </td>
 
-                    <a href="/siswa/hapus/{{ $s->id }}"
-                       class="bg-red-500 px-3 py-1 rounded text-white text-xs">
-                        Hapus
-                    </a>
+                    <td class="px-4 py-3">
+                        {{ $s->nis }}
+                    </td>
 
-                    <a href="/rapor/{{ $s->id }}/pdf"
-                       class="bg-green-500 px-3 py-1 rounded text-white text-xs">
-                        PDF
-                    </a>
+                    <td class="px-4 py-3">
+                        {{ $s->kelas }}
+                    </td>
 
-                </td>
-            </tr>
-            @endforeach
+                    <td class="px-4 py-3 text-center space-x-2">
+
+                        <a href="/siswa/edit/{{ $s->id }}"
+                           class="bg-yellow-400 hover:bg-yellow-500 px-3 py-1 rounded text-white text-xs">
+                           Edit
+                        </a>
+
+                        <a href="/siswa/hapus/{{ $s->id }}"
+                           onclick="return confirm('Yakin mau hapus data ini?')"
+                           class="bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-white text-xs">
+                           Hapus
+                        </a>
+
+                        <a href="/rapor/{{ $s->id }}/pdf"
+                           class="bg-green-500 hover:bg-green-600 px-3 py-1 rounded text-white text-xs">
+                           PDF
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                @empty
+                <tr>
+                    <td colspan="5" class="text-center py-6 text-gray-400">
+                        Belum ada data siswa
+                    </td>
+                </tr>
+                @endforelse
 
             </tbody>
 

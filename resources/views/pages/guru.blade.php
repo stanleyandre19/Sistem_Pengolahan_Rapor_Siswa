@@ -2,49 +2,86 @@
 
 @section('content')
 
-<h1 class="text-xl font-bold mb-4">Data Guru</h1>
+<div class="max-w-5xl mx-auto">
 
-<div class="bg-white p-6 rounded-xl shadow-sm border">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">Data Guru</h1>
 
-    <a href="/guru/tambah"
-       class="mb-4 inline-block bg-blue-500 text-white px-4 py-2 rounded">
-       + Tambah Guru
-    </a>
+        <a href="/guru/tambah"
+           class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow">
+           + Tambah Guru
+        </a>
+    </div>
 
-    <table class="w-full text-sm">
-        <thead>
-            <tr class="bg-gray-100">
-                <th class="p-3">No</th>
-                <th class="p-3">Nama</th>
-                <th class="p-3">NIP</th>
-                <th class="p-3">Mapel</th>
-                <th class="p-3">Aksi</th>
-            </tr>
-        </thead>
+    <div class="bg-white rounded-xl shadow border overflow-hidden">
 
-        <tbody>
-            @foreach($data as $g)
-            <tr class="border-b">
-                <td class="p-3">{{ $loop->iteration }}</td>
-                <td class="p-3">{{ $g->nama }}</td>
-                <td class="p-3">{{ $g->nip }}</td>
-                <td class="p-3">{{ $g->mapel }}</td>
+        <table class="w-full text-sm text-left">
 
-                <td class="p-3 space-x-2">
-                    <a href="/guru/edit/{{ $g->id }}"
-                       class="bg-yellow-400 px-3 py-1 rounded text-white text-xs">
-                        Edit
-                    </a>
+            <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
+                <tr>
+                    <th class="px-4 py-3 text-center w-12">No</th>
+                    <th class="px-4 py-3">Nama</th>
+                    <th class="px-4 py-3">NIP</th>
+                    <th class="px-4 py-3">Mapel</th>
+                    <th class="px-4 py-3 text-center w-40">Aksi</th>
+                </tr>
+            </thead>
 
-                    <a href="/guru/hapus/{{ $g->id }}"
-                       class="bg-red-500 px-3 py-1 rounded text-white text-xs">
-                        Hapus
-                    </a>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+            <tbody class="divide-y">
+
+                @forelse($data as $g)
+                <tr class="hover:bg-gray-50">
+
+                    <td class="px-4 py-3 text-center font-medium">
+                        {{ $loop->iteration }}
+                    </td>
+
+                    <td class="px-4 py-3 font-medium">
+                        {{ ucwords($g->nama) }}
+                    </td>
+
+                    <td class="px-4 py-3">
+                        {{ $g->nip }}
+                    </td>
+
+                    <td class="px-4 py-3">
+                        {{-- kalau relasi --}}
+                        {{ $g->mapel->nama_mapel ?? '-' }}
+
+                        {{-- kalau bukan relasi (string biasa), pakai ini:
+                        {{ $g->mapel }}
+                        --}}
+                    </td>
+
+                    <td class="px-4 py-3 text-center space-x-2">
+
+                        <a href="/guru/edit/{{ $g->id }}"
+                           class="bg-yellow-400 hover:bg-yellow-500 px-3 py-1 rounded text-white text-xs">
+                           Edit
+                        </a>
+
+                        <a href="/guru/hapus/{{ $g->id }}"
+                           class="bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-white text-xs"
+                           onclick="return confirm('Yakin mau hapus?')">
+                           Hapus
+                        </a>
+
+                    </td>
+
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="5" class="text-center py-6 text-gray-500">
+                        Belum ada data guru
+                    </td>
+                </tr>
+                @endforelse
+
+            </tbody>
+
+        </table>
+
+    </div>
 
 </div>
 
