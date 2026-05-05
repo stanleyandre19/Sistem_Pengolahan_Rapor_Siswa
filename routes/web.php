@@ -2,13 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiswaController;
-use App\Http\Controllers\GuruController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes - Sistem Rapor Siswa SD
-|--------------------------------------------------------------------------
-*/
 
 // ======================
 // HALAMAN PUBLIC
@@ -28,43 +21,31 @@ Route::view('/dashboard', 'pages.dashboard')->name('dashboard');
 
 
 // ======================
-// DATA SISWA (REAL CRUD)
+// CRUD SISWA (FULL)
 // ======================
 Route::get('/siswa', [SiswaController::class, 'index']);
 Route::post('/siswa', [SiswaController::class, 'store']);
-Route::get('/siswa/hapus/{id}', [SiswaController::class, 'destroy']);
 
-/*
-|--------------------------------------------------------------------------
-| GURU (CRUD DATABASE)
-|--------------------------------------------------------------------------
-*/
-Route::get('/guru', [GuruController::class, 'index'])->name('guru');
-Route::post('/guru', [GuruController::class, 'store']);
-Route::get('/guru/hapus/{id}', [GuruController::class, 'destroy']);
-
-
-// halaman tambah
 Route::get('/siswa/tambah', function () {
     return view('pages.tambah_siswa');
 });
 
-Route::get('/guru/tambah', function () {    
-    return view('pages.tambah_guru');
-});
+Route::get('/siswa/edit/{id}', [SiswaController::class, 'edit']);
+Route::post('/siswa/update/{id}', [SiswaController::class, 'update']);
 
+Route::get('/siswa/hapus/{id}', [SiswaController::class, 'destroy']);
 
 
 // ======================
-// DATA LAIN (MASIH STATIC DULU)
+// HALAMAN LAIN
 // ======================
-
+Route::view('/guru', 'pages.guru')->name('guru');
 Route::view('/mapel', 'pages.mapel')->name('mapel');
 Route::view('/nilai', 'pages.nilai')->name('nilai');
 
 
 // ======================
-// RAPOR PDF
+// RAPOR PDF (SISWA TIDAK LOGIN)
 // ======================
 Route::get('/rapor/{id}/pdf', function ($id) {
     return "Download Rapor PDF Siswa ID: " . $id;
