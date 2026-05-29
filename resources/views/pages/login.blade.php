@@ -13,12 +13,13 @@
     </p>
 </div>
 
-<form action="{{ route('dashboard') }}" method="GET" class="space-y-4">
+<form action="/login" method="POST" class="space-y-4">
+    @csrf
 
-    <input type="text" placeholder="Username"
+    <input type="text" name="email" placeholder="Username"
         class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 outline-none">
 
-    <input type="password" placeholder="Password"
+    <input type="password" name="password" placeholder="Password"
         class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 outline-none">
 
     <button type="submit"
