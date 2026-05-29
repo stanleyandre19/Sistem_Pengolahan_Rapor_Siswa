@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 // Controller
 use App\Http\Controllers\SiswaController;
@@ -33,6 +34,33 @@ Route::view('/about', 'pages.about');
 
 Route::view('/login', 'pages.login')->name('login');
 Route::view('/register', 'pages.register')->name('register');
+
+// =============
+// LOGIN PROCESS 
+// ======================
+Route::post('/login', function (Request $request) {
+
+    $credentials = $request->only('email', 'password');
+
+    if (Auth::attempt($credentials)) {
+
+        $request->session()->regenerate();
+
+        if (Auth::user()->role == 'admin') {
+            return redirect('/dashboard');
+        }
+
+        if (Auth::user()->role == 'guru') {
+            return redirect('/nilai');
+        }
+
+        if (Auth::user()->role == 'walikelas') {
+            return redirect('/dashboard');
+        }
+    }
+
+    return back()->with('error', 'Email atau password salah');
+});
 
 
 // ======================
