@@ -16,22 +16,36 @@
 <form action="/login" method="POST" class="space-y-4">
     @csrf
 
-    <input type="text" name="email" placeholder="Username"
+    <input type="text" name="email" placeholder="Email"
         class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 outline-none">
 
     <input type="password" name="password" placeholder="Password"
         class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 outline-none">
 
+    <select name="role" required
+    class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 outline-none">
+    <option value="">-- Pilih Role --</option>
+    <option value="admin">Admin</option>
+    <option value="guru">Guru</option>
+    <option value="walikelas">Wali Kelas</option>
+</select>
+
     <button type="submit"
         class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition shadow-md">
         LOGIN
     </button>
+    
+    @if(session('error'))
+    <p class="text-red-500 text-sm text-center">
+        {{ session('error') }}
+    </p>
+@endif
 
 </form>
 
 <div class="mt-6 flex flex-col space-y-2 text-center">
     <a href="{{ route('register') }}"
-       class="text-sm text-blue-600 font-semibold hover:underline">
+        class="text-sm text-blue-600 font-semibold hover:underline">
         Belum punya akun? Daftar di sini
     </a>
 </div>
