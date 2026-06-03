@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\MapelController;
+use App\Http\Controllers\Auth\LoginController;
 
 // Model
 use App\Models\Siswa;
@@ -32,36 +33,16 @@ Route::view('/', 'pages.home')->name('home');
 Route::view('/home', 'pages.home');
 Route::view('/about', 'pages.about');
 
-Route::view('/login', 'pages.login')->name('login');
+Route::get('/login', function () {
+    return view('pages.login');
+})->name('login');
 Route::view('/register', 'pages.register')->name('register');
 
 // =============
 // LOGIN PROCESS 
-// ======================
-Route::post('/login', function (Request $request) {
-
-    $credentials = $request->only('email', 'password');
-
-    if (Auth::attempt($credentials)) {
-
-        $request->session()->regenerate();
-
-        if (Auth::user()->role == 'admin') {
-            return redirect('/dashboard');
-        }
-
-        if (Auth::user()->role == 'guru') {
-            return redirect('/nilai');
-        }
-
-        if (Auth::user()->role == 'walikelas') {
-            return redirect('/dashboard');
-        }
-    }
-
-    return back()->with('error', 'Email atau password salah');
-});
-
+// ==============
+Route::post('/login', [LoginController::class, 'login']);
+Route::get('/logout', [LoginController::class, 'logout']);
 
 // ======================
 // DASHBOARD

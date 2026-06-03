@@ -22,14 +22,6 @@
     <input type="password" name="password" placeholder="Password"
         class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 outline-none">
 
-    <select name="role" required
-    class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 outline-none">
-    <option value="">-- Pilih Role --</option>
-    <option value="admin">Admin</option>
-    <option value="guru">Guru</option>
-    <option value="walikelas">Wali Kelas</option>
-</select>
-
     <button type="submit"
         class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition shadow-md">
         LOGIN

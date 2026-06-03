@@ -10,6 +10,9 @@ class LoginController extends Controller
 {
     public function login(Request $request)
     {
+{
+    dd(Auth::attempt($request->only('email','password')));
+}
         // validasi input
         $request->validate([
             'email' => 'required',
