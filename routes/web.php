@@ -157,7 +157,16 @@ Route::middleware(['auth', 'role:guru'])->group(function () {
 // AREA WALI KELAS
 // =========================================================================
 Route::middleware(['auth', 'role:walikelas'])->group(function () {
-    
-    // DASHBOARD WALI KELAS
-    Route::get('/walikelas/dashboard', function () { return view('pages.dashboard_wali'); });
+
+    Route::get('/walikelas/dashboard', function () {
+
+        return view('pages.dashboard_wali', [
+            'jumlahSiswa' => Siswa::count(),
+            'jumlahNilai' => Nilai::count(),
+            'jumlahMapel' => Mapel::count(),
+            'dataSiswa'   => Siswa::latest()->take(5)->get(),
+        ]);
+
+    });
+
 });
