@@ -25,6 +25,28 @@ use Barryvdh\DomPDF\Facade\Pdf;
 | WEB ROUTES - SISTEM RAPOR SISWA SD
 |--------------------------------------------------------------------------
 */
+// LIST RAPOR (Wali Kelas & Admin)
+Route::middleware(['auth', 'role:admin,walikelas'])->group(function () {
+
+    Route::get('/rapor', function () {
+        return view('rapor.index', [
+            'dataSiswa' => Siswa::all()
+        ]);
+    })->name('rapor.index');
+
+    // CETAK PDF RAPOR
+    Route::get('/rapor/{id}/pdf', function ($id) {
+
+        $siswa = Siswa::findOrFail($id);
+
+        $nilai = Nilai::where('siswa_id', $id)->get();
+
+        $pdf = Pdf::loadView('pages.rapor_pdf', compact('siswa', 'nilai'));
+
+        return $pdf->download('rapor-' . $siswa->nama . '.pdf');
+    })->name('rapor.pdf');
+
+});
 
 // =========================================================================
 // HALAMAN PUBLIC (Bisa diakses tanpa login)
