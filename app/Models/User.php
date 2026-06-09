@@ -22,6 +22,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',     // 🔥 Gerbang role dibuka
+        'nip',      // 🔥 Gerbang NIP dibuka
+        'telepon',  // 🔥 Gerbang Telepon dibuka
     ];
 
     /**

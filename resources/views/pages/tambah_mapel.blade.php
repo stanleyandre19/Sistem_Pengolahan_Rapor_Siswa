@@ -9,7 +9,7 @@
     <form action="/mapel" method="POST" class="space-y-4">
         @csrf
 
-        <input type="text" name="kode_mapel" placeholder="Kode Mapel"
+        <input type="text" name="kode_mapel" placeholder="KKM Mapel"
             class="w-full p-3 border rounded">
 
         <input type="text" name="nama_mapel" placeholder="Nama Mapel"
