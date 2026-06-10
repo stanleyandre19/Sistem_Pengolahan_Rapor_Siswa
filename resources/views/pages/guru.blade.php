@@ -2,79 +2,130 @@
 
 @section('content')
 
-<div class="max-w-5xl mx-auto">
+<div class="max-w-7xl mx-auto space-y-6">
 
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold">Data Guru</h1>
+    <!-- HERO HEADER -->
+    <div class="relative overflow-hidden rounded-3xl shadow-xl">
 
-        <a href="/guru/tambah"
-           class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow">
-           + Tambah Guru
-        </a>
+        <div class="absolute inset-0 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-500"></div>
+        <div class="absolute inset-0 opacity-20 bg-white blur-2xl"></div>
+
+        <div class="relative p-8 text-white flex flex-col md:flex-row md:justify-between md:items-center gap-5">
+
+            <div>
+                <h1 class="text-3xl font-bold">👨‍🏫 Data Guru</h1>
+                <p class="text-blue-100 mt-1 text-sm">
+                    Manajemen data guru sekolah
+                </p>
+            </div>
+
+            <a href="/guru/tambah"
+               class="bg-white text-indigo-600 font-bold px-6 py-3 rounded-2xl shadow-lg hover:scale-105 transition">
+                + Tambah Guru
+            </a>
+
+        </div>
     </div>
 
-    <div class="bg-white rounded-xl shadow border overflow-hidden">
+    <!-- INFO -->
+    <div class="flex justify-between items-center">
+        <p class="text-sm text-gray-500">
+            Total Guru:
+            <span class="font-bold text-gray-800">{{ count($data) }}</span>
+        </p>
+    </div>
 
-        <table class="w-full text-sm text-left">
+    <!-- TABLE CARD -->
+    <div class="bg-white rounded-3xl shadow-xl overflow-hidden border">
 
-            <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
+        <table class="w-full text-sm">
+
+            <!-- HEADER -->
+            <thead class="bg-gray-50 text-gray-600 uppercase text-xs tracking-widest">
                 <tr>
-                    <th class="px-4 py-3 text-center w-12">No</th>
-                    <th class="px-4 py-3">Nama</th>
-                    <th class="px-4 py-3">NIP</th>
-                    <th class="px-4 py-3">Mapel</th>
-                    <th class="px-4 py-3 text-center w-40">Aksi</th>
+                    <th class="px-5 py-4 text-center">#</th>
+                    <th class="px-5 py-4">Guru</th>
+                    <th class="px-5 py-4">NIP</th>
+                    <th class="px-5 py-4">Mapel</th>
+                    <th class="px-5 py-4 text-center">Status</th>
+                    <th class="px-5 py-4 text-center">Aksi</th>
                 </tr>
             </thead>
 
+            <!-- BODY -->
             <tbody class="divide-y">
 
                 @forelse($data as $g)
-                <tr class="hover:bg-gray-50">
+                <tr class="hover:bg-indigo-50/40 transition">
 
-                    <td class="px-4 py-3 text-center font-medium">
+                    <!-- NO -->
+                    <td class="px-5 py-4 text-center font-bold text-gray-500">
                         {{ $loop->iteration }}
                     </td>
 
-                    <td class="px-4 py-3 font-medium">
-                        {{ ucwords($g->nama) }}
+                    <!-- NAMA -->
+                    <td class="px-5 py-4">
+                        <div class="font-semibold text-gray-800">
+                            {{ ucwords($g->nama) }}
+                        </div>
+                        <div class="text-xs text-gray-400">
+                            Teacher ID: {{ $g->id }}
+                        </div>
                     </td>
 
-                    <td class="px-4 py-3">
+                    <!-- NIP -->
+                    <td class="px-5 py-4 font-medium text-gray-600">
                         {{ $g->nip }}
                     </td>
 
-                    <td class="px-4 py-3">
-                        {{-- kalau relasi --}}
-                        {{ $g->mapel->nama_mapel ?? '-' }}
-
-                        {{-- kalau bukan relasi (string biasa), pakai ini:
-                        {{ $g->mapel }}
-                        --}}
+                    <!-- MAPEL -->
+                    <td class="px-5 py-4">
+                        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-700">
+                            {{ $g->mapel->nama_mapel ?? '-' }}
+                        </span>
                     </td>
 
-                    <td class="px-4 py-3 text-center space-x-2">
+                    <!-- STATUS -->
+                    <td class="px-5 py-4 text-center">
+                        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+                            Aktif
+                        </span>
+                    </td>
 
-                        <a href="/guru/edit/{{ $g->id }}"
-                           class="bg-yellow-400 hover:bg-yellow-500 px-3 py-1 rounded text-white text-xs">
-                           Edit
-                        </a>
+                    <!-- AKSI -->
+                    <td class="px-5 py-4">
 
-                        <a href="/guru/hapus/{{ $g->id }}"
-                           class="bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-white text-xs"
-                           onclick="return confirm('Yakin mau hapus?')">
-                           Hapus
-                        </a>
+                        <div class="flex justify-center gap-2">
+
+                            <a href="/guru/edit/{{ $g->id }}"
+                               class="px-3 py-1 rounded-xl text-xs font-semibold bg-yellow-400 hover:bg-yellow-500 text-white shadow hover:scale-105 transition">
+                                Edit
+                            </a>
+
+                            <a href="/guru/hapus/{{ $g->id }}"
+                               onclick="return confirm('Yakin mau hapus?')"
+                               class="px-3 py-1 rounded-xl text-xs font-semibold bg-red-500 hover:bg-red-600 text-white shadow hover:scale-105 transition">
+                                Hapus
+                            </a>
+
+                        </div>
 
                     </td>
 
                 </tr>
+
                 @empty
+
+                <!-- EMPTY -->
                 <tr>
-                    <td colspan="5" class="text-center py-6 text-gray-500">
-                        Belum ada data guru
+                    <td colspan="6" class="py-16 text-center">
+                        <div class="text-gray-400">
+                            <div class="text-xl font-bold">Belum ada data guru 😢</div>
+                            <p class="text-sm mt-1">Klik tombol tambah untuk mulai input data</p>
+                        </div>
                     </td>
                 </tr>
+
                 @endforelse
 
             </tbody>
