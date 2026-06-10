@@ -2,103 +2,173 @@
 
 @section('content')
 
-<div class="p-6">
+<div class="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-indigo-100 p-6">
 
-    {{-- Judul --}}
-    <h1 class="text-3xl font-bold text-gray-800">
-        Dashboard Wali Kelas
-    </h1>
+    {{-- HERO SECTION --}}
+    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 shadow-2xl mb-8">
 
-    <p class="text-gray-600 mt-2 mb-6">
-        Halo Bapak/Ibu {{ Auth::user()->name }},
-        selamat datang di Sistem Pengolahan Rapor Siswa.
-    </p>
-
-    {{-- Informasi --}}
-    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-        <h3 class="font-semibold text-blue-700 mb-2">
-            Informasi
-        </h3>
-
-        <p>
-            Anda dapat melihat data siswa, memantau nilai siswa,
-            dan mengakses rapor melalui menu yang tersedia.
-        </p>
-    </div>
-
-    {{-- Statistik --}}
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-
-        {{-- Jumlah Siswa --}}
-        <div class="bg-white rounded-lg shadow p-6">
-
-            <p class="text-gray-500 text-sm">
-                Jumlah Siswa
-            </p>
-
-            <h2 class="text-4xl font-bold text-blue-600 mt-3">
-                {{ $jumlahSiswa }}
-            </h2>
-
+        <div class="absolute right-0 top-0 opacity-10 text-[180px] font-bold text-white">
+            📚
         </div>
 
-        {{-- Data Nilai --}}
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="p-8 relative z-10">
 
-            <p class="text-gray-500 text-sm">
-                Data Nilai
+            <h1 class="text-4xl font-extrabold text-white mb-2">
+                Dashboard Wali Kelas ✨
+            </h1>
+
+            <p class="text-blue-100 text-lg">
+                Selamat datang kembali,
+                <span class="font-bold text-white">
+                    {{ Auth::user()->name }}
+                </span>
             </p>
 
-            <h2 class="text-4xl font-bold text-green-600 mt-3">
-                {{ $jumlahNilai }}
-            </h2>
-
-        </div>
-
-        {{-- Mata Pelajaran --}}
-        <div class="bg-white rounded-lg shadow p-6">
-
-            <p class="text-gray-500 text-sm">
-                Mata Pelajaran
+            <p class="text-blue-200 mt-2">
+                Kelola data siswa, nilai, dan rapor dengan mudah.
             </p>
-
-            <h2 class="text-4xl font-bold text-orange-500 mt-3">
-                {{ $jumlahMapel }}
-            </h2>
 
         </div>
 
     </div>
 
-    {{-- Tabel Siswa --}}
-    <div class="bg-white rounded-lg shadow">
+    {{-- INFO CARD --}}
+    <div class="bg-white rounded-3xl shadow-lg border border-blue-100 p-6 mb-8">
 
-        <div class="p-5 border-b">
+        <div class="flex items-center gap-4">
 
-            <h3 class="text-lg font-bold text-gray-800">
-                Daftar Siswa Terbaru
+            <div class="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center text-2xl">
+                📢
+            </div>
+
+            <div>
+
+                <h3 class="font-bold text-gray-800 text-lg">
+                    Informasi Sistem
+                </h3>
+
+                <p class="text-gray-600">
+                    Anda dapat melihat data siswa, memantau nilai siswa,
+                    serta mengakses rapor melalui menu yang tersedia.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {{-- STATISTIK --}}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+
+        {{-- JUMLAH SISWA --}}
+        <div class="group bg-white rounded-3xl p-6 shadow-lg hover:shadow-2xl transition duration-300 hover:-translate-y-2">
+
+            <div class="flex justify-between items-center">
+
+                <div>
+
+                    <p class="text-gray-500">
+                        Jumlah Siswa
+                    </p>
+
+                    <h2 class="text-5xl font-extrabold text-blue-600 mt-2">
+                        {{ $jumlahSiswa }}
+                    </h2>
+
+                </div>
+
+                <div class="text-6xl group-hover:scale-110 transition">
+                    👨‍🎓
+                </div>
+
+            </div>
+
+        </div>
+
+        {{-- DATA NILAI --}}
+        <div class="group bg-white rounded-3xl p-6 shadow-lg hover:shadow-2xl transition duration-300 hover:-translate-y-2">
+
+            <div class="flex justify-between items-center">
+
+                <div>
+
+                    <p class="text-gray-500">
+                        Data Nilai
+                    </p>
+
+                    <h2 class="text-5xl font-extrabold text-green-600 mt-2">
+                        {{ $jumlahNilai }}
+                    </h2>
+
+                </div>
+
+                <div class="text-6xl group-hover:scale-110 transition">
+                    📊
+                </div>
+
+            </div>
+
+        </div>
+
+        {{-- MATA PELAJARAN --}}
+        <div class="group bg-white rounded-3xl p-6 shadow-lg hover:shadow-2xl transition duration-300 hover:-translate-y-2">
+
+            <div class="flex justify-between items-center">
+
+                <div>
+
+                    <p class="text-gray-500">
+                        Mata Pelajaran
+                    </p>
+
+                    <h2 class="text-5xl font-extrabold text-orange-500 mt-2">
+                        {{ $jumlahMapel }}
+                    </h2>
+
+                </div>
+
+                <div class="text-6xl group-hover:scale-110 transition">
+                    📚
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {{-- TABEL SISWA --}}
+    <div class="bg-white rounded-3xl shadow-xl overflow-hidden mb-8">
+
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-4">
+
+            <h3 class="text-xl font-bold text-white">
+                👨‍🎓 Daftar Siswa Terbaru
             </h3>
 
         </div>
 
         <div class="overflow-x-auto">
 
-            <table class="min-w-full">
+            <table class="w-full">
 
-                <thead class="bg-gray-100">
+                <thead class="bg-blue-50">
 
                     <tr>
-                        <th class="px-4 py-3 text-left">
+
+                        <th class="px-6 py-4 text-left text-gray-700">
                             No
                         </th>
 
-                        <th class="px-4 py-3 text-left">
+                        <th class="px-6 py-4 text-left text-gray-700">
+                            NIS
+                        </th>
+
+                        <th class="px-6 py-4 text-left text-gray-700">
                             Nama Siswa
                         </th>
 
-                        <th class="px-4 py-3 text-left">
-                            Jenis Kelamin
-                        </th>
                     </tr>
 
                 </thead>
@@ -107,31 +177,33 @@
 
                     @forelse($dataSiswa as $index => $siswa)
 
-                        <tr class="border-b hover:bg-gray-50">
+                    <tr class="border-b hover:bg-blue-50 transition">
 
-                            <td class="px-4 py-3">
-                                {{ $index + 1 }}
-                            </td>
+                        <td class="px-6 py-4">
+                            {{ $index + 1 }}
+                        </td>
 
-                            <td class="px-4 py-3">
-                                {{ $siswa->nama }}
-                            </td>
+                        <td class="px-6 py-4 font-medium text-gray-700">
+                            {{ $siswa->nis ?? '-' }}
+                        </td>
 
-                            <td class="px-4 py-3">
-                                {{ $siswa->jenis_kelamin ?? '-' }}
-                            </td>
+                        <td class="px-6 py-4 font-semibold text-gray-800">
+                            {{ $siswa->nama }}
+                        </td>
 
-                        </tr>
+                    </tr>
 
                     @empty
 
-                        <tr>
+                    <tr>
 
-                            <td colspan="3" class="text-center py-6 text-gray-500">
-                                Belum ada data siswa.
-                            </td>
+                        <td colspan="3" class="text-center py-8 text-gray-500">
 
-                        </tr>
+                            Belum ada data siswa.
+
+                        </td>
+
+                    </tr>
 
                     @endforelse
 
@@ -143,20 +215,56 @@
 
     </div>
 
-    {{-- Shortcut Menu --}}
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+    {{-- MENU CEPAT --}}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
         <a href="/siswa"
-           class="bg-indigo-500 hover:bg-indigo-600 text-white text-center p-4 rounded-lg shadow">
+           class="group bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-3xl p-6 shadow-xl hover:scale-105 transition">
 
-            📚 Lihat Data Siswa
+            <div class="flex items-center justify-between">
+
+                <div>
+
+                    <h3 class="text-xl font-bold">
+                        📚 Data Siswa
+                    </h3>
+
+                    <p class="text-blue-100 mt-1">
+                        Kelola dan lihat data siswa
+                    </p>
+
+                </div>
+
+                <div class="text-5xl group-hover:rotate-6 transition">
+                    ➜
+                </div>
+
+            </div>
 
         </a>
 
-        <a href="/siswa"
-           class="bg-green-500 hover:bg-green-600 text-white text-center p-4 rounded-lg shadow">
+        <a href="/rapor"
+           class="group bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-3xl p-6 shadow-xl hover:scale-105 transition">
 
-            🖨️ Lihat Rapor Siswa
+            <div class="flex items-center justify-between">
+
+                <div>
+
+                    <h3 class="text-xl font-bold">
+                        🖨️ Lihat Rapor
+                    </h3>
+
+                    <p class="text-green-100 mt-1">
+                        Akses dan cetak rapor siswa
+                    </p>
+
+                </div>
+
+                <div class="text-5xl group-hover:rotate-6 transition">
+                    ➜
+                </div>
+
+            </div>
 
         </a>
 
