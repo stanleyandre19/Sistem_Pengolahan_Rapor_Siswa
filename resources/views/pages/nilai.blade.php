@@ -2,67 +2,146 @@
 
 @section('content')
 
-<h1 class="text-xl font-bold mb-4">Input Nilai Siswa</h1>
+<div class="max-w-7xl mx-auto space-y-6">
 
-<div class="bg-white p-6 rounded-xl shadow-sm border mb-6">
+    <!-- HEADER -->
+    <div class="relative overflow-hidden rounded-3xl shadow-2xl">
 
-    <form action="/nilai/simpan" method="POST" class="grid grid-cols-2 gap-4">
-        @csrf
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600"></div>
+        <div class="absolute inset-0 opacity-20 bg-white blur-3xl"></div>
 
-        <input type="text" name="nama_siswa" placeholder="Nama Siswa"
-            class="p-2 border rounded">
+        <div class="relative p-10 text-white">
 
-        <input type="text" name="mapel" placeholder="Mata Pelajaran"
-            class="p-2 border rounded">
+            <h1 class="text-4xl font-extrabold">
+                📊 Input Nilai Siswa
+            </h1>
 
-        <input type="number" name="tugas" placeholder="Nilai Tugas"
-            class="p-2 border rounded">
+            <p class="text-indigo-100 mt-2 text-sm">
+                Kelola nilai tugas, UTS, UAS dan otomatis hitung nilai akhir
+            </p>
 
-        <input type="number" name="uts" placeholder="Nilai UTS"
-            class="p-2 border rounded">
+        </div>
 
-        <input type="number" name="uas" placeholder="Nilai UAS"
-            class="p-2 border rounded">
+    </div>
 
-        <button class="col-span-2 bg-blue-600 text-white py-2 rounded">
-            Simpan Nilai
-        </button>
+    <!-- FORM CARD -->
+    <div class="bg-white rounded-3xl shadow-xl border p-8">
 
-    </form>
+        <h2 class="text-lg font-bold text-gray-700 mb-6">
+            ➕ Tambah Nilai Baru
+        </h2>
 
-</div>
+        <form action="/nilai/simpan" method="POST"
+              class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-<div class="bg-white p-6 rounded-xl shadow-sm border">
+            @csrf
 
-    <table class="w-full text-sm">
-        <thead>
-            <tr class="bg-gray-100">
-                <th class="p-2">No</th>
-                <th class="p-2">Nama</th>
-                <th class="p-2">Mapel</th>
-                <th class="p-2">Tugas</th>
-                <th class="p-2">UTS</th>
-                <th class="p-2">UAS</th>
-                <th class="p-2">Nilai Akhir</th>
-            </tr>
-        </thead>
+            <input type="text" name="nama_siswa" placeholder="👤 Nama Siswa"
+                   class="p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none">
 
-        <tbody>
-            @foreach($data as $n)
-            <tr class="border-b text-center">
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $n->nama_siswa }}</td>
-                <td>{{ $n->mapel }}</td>
-                <td>{{ $n->tugas }}</td>
-                <td>{{ $n->uts }}</td>
-                <td>{{ $n->uas }}</td>
-                <td class="font-bold text-blue-600">
-                    {{ number_format($n->nilai_akhir, 2) }}
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+            <input type="text" name="mapel" placeholder="📚 Mata Pelajaran"
+                   class="p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none">
+
+            <input type="number" name="tugas" placeholder="📝 Nilai Tugas"
+                   class="p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none">
+
+            <input type="number" name="uts" placeholder="📘 Nilai UTS"
+                   class="p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none">
+
+            <input type="number" name="uas" placeholder="📗 Nilai UAS"
+                   class="p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none">
+
+            <button class="md:col-span-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-bold shadow-lg hover:scale-[1.02] transition">
+                💾 Simpan Nilai
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- TABLE CARD -->
+    <div class="bg-white rounded-3xl shadow-xl border overflow-hidden">
+
+        <!-- TABLE HEADER -->
+        <div class="p-6 border-b bg-gray-50 flex justify-between items-center">
+
+            <h2 class="font-bold text-gray-700">
+                📋 Data Nilai Siswa
+            </h2>
+
+            <span class="text-sm text-gray-400">
+                Total: {{ count($data) }}
+            </span>
+
+        </div>
+
+        <table class="w-full text-sm">
+
+            <thead class="bg-gray-100 text-gray-600 uppercase text-xs tracking-widest">
+                <tr>
+                    <th class="p-4 text-center">No</th>
+                    <th class="p-4 text-left">Nama</th>
+                    <th class="p-4 text-left">Mapel</th>
+                    <th class="p-4 text-center">Tugas</th>
+                    <th class="p-4 text-center">UTS</th>
+                    <th class="p-4 text-center">UAS</th>
+                    <th class="p-4 text-center">Nilai Akhir</th>
+                </tr>
+            </thead>
+
+            <tbody class="divide-y">
+
+                @forelse($data as $n)
+
+                <tr class="hover:bg-blue-50/40 transition">
+
+                    <td class="p-4 text-center font-bold text-gray-500">
+                        {{ $loop->iteration }}
+                    </td>
+
+                    <td class="p-4 font-semibold text-gray-800">
+                        {{ $n->nama_siswa }}
+                    </td>
+
+                    <td class="p-4">
+                        <span class="px-3 py-1 rounded-full text-xs bg-indigo-100 text-indigo-700">
+                            {{ $n->mapel }}
+                        </span>
+                    </td>
+
+                    <td class="p-4 text-center">
+                        {{ $n->tugas }}
+                    </td>
+
+                    <td class="p-4 text-center">
+                        {{ $n->uts }}
+                    </td>
+
+                    <td class="p-4 text-center">
+                        {{ $n->uas }}
+                    </td>
+
+                    <td class="p-4 text-center font-bold text-blue-600">
+                        {{ number_format($n->nilai_akhir, 2) }}
+                    </td>
+
+                </tr>
+
+                @empty
+
+                <tr>
+                    <td colspan="7" class="py-16 text-center text-gray-400">
+                        Belum ada data nilai 😢
+                    </td>
+                </tr>
+
+                @endforelse
+
+            </tbody>
+
+        </table>
+
+    </div>
 
 </div>
 
