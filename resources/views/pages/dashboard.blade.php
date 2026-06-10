@@ -2,90 +2,126 @@
 
 @section('content')
 
-<div class="max-w-6xl mx-auto space-y-6">
+<div class="max-w-7xl mx-auto space-y-8">
 
     <!-- HEADER -->
-    <div>
-        <h1 class="text-2xl font-bold text-gray-800">Dashboard Admin</h1>
-        <p class="text-sm text-gray-500">Pengolahan Rapor Siswa SD</p>
+    <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 rounded-2xl shadow-lg">
+        <h1 class="text-3xl font-bold">Dashboard Admin</h1>
+        <p class="text-sm text-blue-100 mt-1">Pengolahan Rapor Siswa SD - Sistem Informasi Akademik</p>
     </div>
 
-    <!-- CARD STAT -->
+    <!-- STAT CARDS -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-        <div class="bg-blue-100 p-5 rounded-xl shadow-sm hover:shadow transition">
-            <p class="text-sm text-blue-700">Jumlah Siswa</p>
-            <h2 class="text-3xl font-bold text-blue-800 mt-2">
-                {{ $jumlah_siswa }}
-            </h2>
+        <!-- Siswa -->
+        <div class="bg-white rounded-2xl shadow-md p-6 hover:shadow-xl transition border-l-4 border-blue-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500">Jumlah Siswa</p>
+                    <h2 class="text-3xl font-bold text-blue-600 mt-2">
+                        {{ $jumlah_siswa }}
+                    </h2>
+                </div>
+                <div class="bg-blue-100 p-3 rounded-full">
+                    <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 10a4 4 0 100-8 4 4 0 000 8zM2 18a8 8 0 1116 0H2z"/>
+                    </svg>
+                </div>
+            </div>
         </div>
 
-        <div class="bg-green-100 p-5 rounded-xl shadow-sm hover:shadow transition">
-            <p class="text-sm text-green-700">Jumlah Guru</p>
-            <h2 class="text-3xl font-bold text-green-800 mt-2">
-                {{ $jumlah_guru }}
-            </h2>
+        <!-- Guru -->
+        <div class="bg-white rounded-2xl shadow-md p-6 hover:shadow-xl transition border-l-4 border-green-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500">Jumlah Guru</p>
+                    <h2 class="text-3xl font-bold text-green-600 mt-2">
+                        {{ $jumlah_guru }}
+                    </h2>
+                </div>
+                <div class="bg-green-100 p-3 rounded-full">
+                    <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M3 3h14v2H3V3zm2 4h10v10H5V7z"/>
+                    </svg>
+                </div>
+            </div>
         </div>
 
-        <div class="bg-yellow-100 p-5 rounded-xl shadow-sm hover:shadow transition">
-            <p class="text-sm text-yellow-700">Jumlah Mapel</p>
-            <h2 class="text-3xl font-bold text-yellow-800 mt-2">
-                {{ $jumlah_mapel }}
-            </h2>
+        <!-- Mapel -->
+        <div class="bg-white rounded-2xl shadow-md p-6 hover:shadow-xl transition border-l-4 border-yellow-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500">Jumlah Mapel</p>
+                    <h2 class="text-3xl font-bold text-yellow-600 mt-2">
+                        {{ $jumlah_mapel }}
+                    </h2>
+                </div>
+                <div class="bg-yellow-100 p-3 rounded-full">
+                    <svg class="w-6 h-6 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M4 3h12v2H4V3zm0 4h12v10H4V7z"/>
+                    </svg>
+                </div>
+            </div>
         </div>
 
     </div>
 
-    
+    <!-- TABLE CARD -->
+    <div class="bg-white rounded-2xl shadow-md overflow-hidden">
 
-        <table class="w-full text-sm text-left">
+        <div class="p-5 border-b flex justify-between items-center">
+            <h2 class="font-bold text-gray-700">Data Siswa</h2>
+            <span class="text-sm text-gray-400">Total: {{ count($data) }}</span>
+        </div>
 
-            <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
+        <table class="w-full text-sm">
+
+            <thead class="bg-gray-50 text-gray-600 uppercase text-xs">
                 <tr>
-                    <th class="px-4 py-3 text-center w-12">No</th>
+                    <th class="px-4 py-3 text-center">No</th>
                     <th class="px-4 py-3">Nama</th>
                     <th class="px-4 py-3">NIS</th>
                     <th class="px-4 py-3">Kelas</th>
-                    <th class="px-4 py-3 text-center w-56">Aksi</th>
+                    <th class="px-4 py-3 text-center">Aksi</th>
                 </tr>
             </thead>
 
             <tbody class="divide-y">
 
                 @forelse($data as $s)
-                <tr class="hover:bg-gray-50">
+                <tr class="hover:bg-gray-50 transition">
 
                     <td class="px-4 py-3 text-center font-medium">
                         {{ $loop->iteration }}
                     </td>
 
-                    <td class="px-4 py-3 font-medium">
+                    <td class="px-4 py-3 font-semibold text-gray-700">
                         {{ ucwords($s->nama) }}
                     </td>
 
-                    <td class="px-4 py-3">
+                    <td class="px-4 py-3 text-gray-600">
                         {{ $s->nis }}
                     </td>
 
                     <td class="px-4 py-3">
-                        {{ $s->kelas }}
+                        <span class="px-2 py-1 bg-gray-100 rounded-full text-xs">
+                            {{ $s->kelas }}
+                        </span>
                     </td>
 
-                    <td class="px-4 py-3 text-center space-x-2">
-
+                    <td class="px-4 py-3 text-center">
 
                         <a href="/rapor/{{ $s->id }}/pdf"
-                           class="bg-green-500 hover:bg-green-600 px-3 py-1 rounded text-white text-xs">
-                           PDF
+                           class="inline-block bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-4 py-1 rounded-lg text-xs shadow">
+                           Download PDF
                         </a>
 
                     </td>
 
                 </tr>
-
                 @empty
                 <tr>
-                    <td colspan="5" class="text-center py-6 text-gray-400">
+                    <td colspan="5" class="text-center py-10 text-gray-400">
                         Belum ada data siswa
                     </td>
                 </tr>
