@@ -9,6 +9,7 @@ class Guru extends Model
     protected $fillable = [
         'nama',
         'nip',
-        'mapel'
+        'mapel',
+        'email'
     ];
 }

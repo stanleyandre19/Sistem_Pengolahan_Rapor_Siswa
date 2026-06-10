@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Guru;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class GuruController extends Controller
 {
@@ -15,8 +17,23 @@ class GuruController extends Controller
 
     public function store(Request $request)
     {
-        Guru::create($request->all());
-        return redirect('/guru');
+        // Simpan data guru
+        Guru::create([
+            'nama'  => $request->nama,
+            'nip'   => $request->nip,
+            'mapel' => $request->mapel,
+        ]);
+
+        // Otomatis buat akun login guru
+        User::create([
+            'name'     => $request->nama,
+            'email'    => $request->email,
+            'password' => Hash::make($request->password),
+            'role'     => 'guru',
+        ]);
+
+        return redirect('/guru')
+            ->with('success', 'Guru dan akun login berhasil dibuat!');
     }
 
     public function edit($id)
@@ -28,7 +45,12 @@ class GuruController extends Controller
     public function update(Request $request, $id)
     {
         $guru = Guru::find($id);
-        $guru->update($request->all());
+
+        $guru->update([
+            'nama'  => $request->nama,
+            'nip'   => $request->nip,
+            'mapel' => $request->mapel,
+        ]);
 
         return redirect('/guru');
     }
@@ -36,6 +58,7 @@ class GuruController extends Controller
     public function destroy($id)
     {
         Guru::destroy($id);
+
         return redirect('/guru');
     }
 }
