@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Walikelas;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class WalikelasController extends Controller
 {
@@ -24,12 +26,29 @@ class WalikelasController extends Controller
             'nama' => 'required',
             'nip' => 'required|unique:walikelas',
             'kelas' => 'required',
-            'jenis_kelamin' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:4'
         ]);
 
-        Walikelas::create($request->all());
+        // 1. BUAT AKUN LOGIN
+        $user = User::create([
+            'name' => $request->nama,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'walikelas'
+        ]);
 
-        return redirect()->route('walikelas.index')->with('success', 'Data berhasil ditambahkan');
+        // 2. SIMPAN WALI KELAS
+        Walikelas::create([
+            'nama' => $request->nama,
+            'nip' => $request->nip,
+            'kelas' => $request->kelas,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'no_hp' => $request->no_hp,
+            'user_id' => $user->id
+        ]);
+
+        return redirect('/walikelas')->with('success', 'Data & akun berhasil dibuat');
     }
 
     public function edit($id)
@@ -45,18 +64,17 @@ class WalikelasController extends Controller
         $request->validate([
             'nama' => 'required',
             'nip' => 'required',
-            'kelas' => 'required',
-            'jenis_kelamin' => 'required',
+            'kelas' => 'required'
         ]);
 
         $data->update($request->all());
 
-        return redirect()->route('walikelas.index')->with('success', 'Data berhasil diupdate');
+        return redirect('/walikelas');
     }
 
     public function destroy($id)
     {
         Walikelas::destroy($id);
-        return redirect()->route('walikelas.index')->with('success', 'Data berhasil dihapus');
+        return redirect('/walikelas');
     }
 }
