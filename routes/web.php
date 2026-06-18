@@ -11,6 +11,7 @@ use App\Http\Controllers\MapelController;
 use App\Http\Controllers\WalikelasController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\NilaiController;
 
 // MODEL
 use App\Models\Siswa;
@@ -166,28 +167,14 @@ Route::middleware(['auth', 'role:guru'])->group(function () {
 
     Route::get('/guru/dashboard', fn() => view('pages.dashboard_guru'));
 
-    Route::get('/nilai', function () {
-        return view('pages.nilai', ['data' => Nilai::all()]);
-    });
-
-    Route::post('/nilai/simpan', function (Request $request) {
-
-        $nilai_akhir = ($request->tugas*0.4)+($request->uts*0.3)+($request->uas*0.3);
-
-        Nilai::create([
-            'nama_siswa' => $request->nama_siswa,
-            'mapel' => $request->mapel,
-            'tugas' => $request->tugas,
-            'uts' => $request->uts,
-            'uas' => $request->uas,
-            'nilai_akhir' => $nilai_akhir,
-        ]);
-
-        return redirect('/nilai');
-    });
+    Route::get('/nilai', [NilaiController::class, 'index']);
+    Route::post('/nilai/simpan', [NilaiController::class, 'store']);
+    Route::get('/nilai/edit/{id}', [NilaiController::class, 'edit']);
+    Route::put('/nilai/update/{id}', [NilaiController::class, 'update']);
+    Route::delete('/nilai/hapus/{id}', [NilaiController::class, 'destroy']);
 
 });
-
+    
 /*
 |--------------------------------------------------------------------------
 | WALI KELAS DASHBOARD
