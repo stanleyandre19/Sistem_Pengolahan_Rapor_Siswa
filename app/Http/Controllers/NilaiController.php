@@ -11,7 +11,7 @@ class NilaiController extends Controller
     public function index()
     {
         $data = Nilai::all();
-        return view('nilai.index', compact('data'));
+        return view('pages.nilai', compact('data'));
     }
 
     // ➕ SIMPAN DATA (CREATE)
@@ -33,7 +33,7 @@ class NilaiController extends Controller
     public function edit($id)
     {
         $data = Nilai::findOrFail($id);
-        return view('nilai.edit', compact('data'));
+            return view('pages.edit_nilai', compact('data'));
     }
 
     // 💾 UPDATE (simpan edit)
