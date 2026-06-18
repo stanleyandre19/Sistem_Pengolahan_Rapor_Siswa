@@ -7,7 +7,7 @@
     <!-- HEADER -->
     <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 rounded-2xl shadow-lg">
         <h1 class="text-3xl font-bold">Dashboard Admin</h1>
-        <p class="text-sm text-blue-100 mt-1">Pengolahan Rapor Siswa SD - Sistem Informasi Akademik</p>
+        <p class="text-sm text-blue-100 mt-1">Pengolahan Rapor Siswa - Sistem Informasi Akademik</p>
     </div>
 
     <!-- STAT CARDS -->

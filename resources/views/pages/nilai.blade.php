@@ -86,6 +86,9 @@
                     <th class="p-4 text-center">UTS</th>
                     <th class="p-4 text-center">UAS</th>
                     <th class="p-4 text-center">Nilai Akhir</th>
+
+                    <!-- ✅ TAMBAHAN -->
+                    <th class="p-4 text-center">Aksi</th>
                 </tr>
             </thead>
 
@@ -125,12 +128,35 @@
                         {{ number_format($n->nilai_akhir, 2) }}
                     </td>
 
+                    <!-- ✅ TAMBAHAN AKSI -->
+                    <td class="p-4 text-center space-x-2">
+
+                        <!-- EDIT -->
+                        <a href="/nilai/edit/{{ $n->id }}"
+                           class="inline-block px-3 py-1 text-xs font-bold text-white bg-yellow-500 rounded-lg hover:bg-yellow-600">
+                            ✏️ Edit
+                        </a>
+
+                        <!-- DELETE -->
+                        <form action="/nilai/hapus/{{ $n->id }}" method="POST" class="inline">
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit"
+                                    onclick="return confirm('Yakin ingin hapus data ini?')"
+                                    class="px-3 py-1 text-xs font-bold text-white bg-red-600 rounded-lg hover:bg-red-700">
+                                🗑 Hapus
+                            </button>
+                        </form>
+
+                    </td>
+
                 </tr>
 
                 @empty
 
                 <tr>
-                    <td colspan="7" class="py-16 text-center text-gray-400">
+                    <td colspan="8" class="py-16 text-center text-gray-400">
                         Belum ada data nilai 😢
                     </td>
                 </tr>
