@@ -78,7 +78,7 @@
 
                 <div>
                     <p class="text-gray-500">
-                        Siap Dicetak
+                        Siap Didownload
                     </p>
 
                     <h2 class="text-4xl font-bold text-purple-600 mt-2">
