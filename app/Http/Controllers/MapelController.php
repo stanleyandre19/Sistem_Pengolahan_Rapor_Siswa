@@ -16,19 +16,26 @@ class MapelController extends Controller
 
     public function create()
     {
-        $guru = \App\Models\Guru::all();
+        $guru = Guru::all();
         return view('pages.tambah_mapel', compact('guru'));
     }
 
     public function store(Request $request)
     {
+        $request->validate([
+            'kode_mapel' => 'required|numeric|min:60|max:100',
+            'nama_mapel' => 'required|string|max:255',
+            'guru_id' => 'required|exists:gurus,id'
+        ]);
+
         Mapel::create([
             'kode_mapel' => $request->kode_mapel,
             'nama_mapel' => $request->nama_mapel,
             'guru_id' => $request->guru_id
         ]);
 
-        return redirect('/mapel');
+        return redirect('/mapel')
+            ->with('success', 'Data mapel berhasil ditambahkan');
     }
 
     public function edit($id)
@@ -41,6 +48,12 @@ class MapelController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'kode_mapel' => 'required|numeric|min:60|max:100',
+            'nama_mapel' => 'required|string|max:255',
+            'guru_id' => 'required|exists:gurus,id'
+        ]);
+
         $mapel = Mapel::findOrFail($id);
 
         $mapel->update([
@@ -49,12 +62,15 @@ class MapelController extends Controller
             'guru_id' => $request->guru_id
         ]);
 
-        return redirect('/mapel');
+        return redirect('/mapel')
+            ->with('success', 'Data mapel berhasil diupdate');
     }
 
     public function destroy($id)
     {
         Mapel::destroy($id);
-        return redirect('/mapel');
+
+        return redirect('/mapel')
+            ->with('success', 'Data mapel berhasil dihapus');
     }
 }
