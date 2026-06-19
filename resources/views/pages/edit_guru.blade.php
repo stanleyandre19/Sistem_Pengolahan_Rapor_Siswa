@@ -2,24 +2,61 @@
 
 @section('content')
 
-<h2 class="text-xl font-bold mb-4">Edit Guru</h2>
+<div class="max-w-lg mx-auto">
 
-<form action="/guru/update/{{ $data->id }}" method="POST" class="space-y-4 bg-white p-6 rounded-xl shadow">
-    @csrf
+    <h2 class="text-2xl font-bold mb-6">Edit Data Guru</h2>
 
-    <input type="text" name="nama" value="{{ $data->nama }}"
-        class="w-full p-2 border rounded">
+    <form action="{{ url('/guru/update/'.$data->id) }}" method="POST"
+        class="bg-white p-6 rounded-lg shadow">
 
-    <input type="text" name="nip" value="{{ $data->nip }}"
-        class="w-full p-2 border rounded">
+        @csrf
 
-    <input type="text" name="mapel" value="{{ $data->mapel }}"
-        class="w-full p-2 border rounded">
+        <!-- Nama Guru -->
+        <div class="mb-4">
+            <label class="block font-semibold mb-2">
+                Nama Guru
+            </label>
+            <input
+                type="text"
+                name="nama"
+                value="{{ $data->nama }}"
+                class="w-full p-2 border rounded"
+                placeholder="Masukkan nama guru">
+        </div>
 
-    <button class="bg-yellow-500 text-white px-4 py-2 rounded">
-        Update
-    </button>
+        <!-- NIP -->
+        <div class="mb-4">
+            <label class="block font-semibold mb-2">
+                NIP
+            </label>
+            <input
+                type="text"
+                name="nip"
+                value="{{ $data->nip }}"
+                class="w-full p-2 border rounded"
+                placeholder="Masukkan NIP">
+        </div>
 
-</form>
+        <!-- Mata Pelajaran -->
+        <div class="mb-4">
+            <label class="block font-semibold mb-2">
+                Mata Pelajaran
+            </label>
+            <input
+                type="text"
+                name="mapel"
+                value="{{ $data->mapel }}"
+                class="w-full p-2 border rounded"
+                placeholder="Masukkan mata pelajaran">
+        </div>
+
+        <button type="submit"
+            class="bg-yellow-500 text-white px-4 py-2 rounded">
+            Update Data
+        </button>
+
+    </form>
+
+</div>
 
 @endsection
