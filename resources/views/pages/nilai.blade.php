@@ -36,23 +36,62 @@
 
             @csrf
 
-            <input type="text" name="nama_siswa" placeholder="👤 Nama Siswa"
-                   class="p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none">
+            <!-- NAMA SISWA DROPDOWN -->
+            <select name="nama_siswa"
+                    class="p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none"
+                    required>
 
-            <input type="text" name="mapel" placeholder="📚 Mata Pelajaran"
-                   class="p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none">
+                <option value="">
+                    👤 Pilih Siswa
+                </option>
 
-            <input type="number" name="tugas" placeholder="📝 Nilai Tugas"
-                   class="p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none">
+                @foreach($siswa as $s)
+                    <option value="{{ $s->nama }}">
+                        {{ $s->nama }}
+                    </option>
+                @endforeach
 
-            <input type="number" name="uts" placeholder="📘 Nilai UTS"
-                   class="p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none">
+            </select>
 
-            <input type="number" name="uas" placeholder="📗 Nilai UAS"
-                   class="p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none">
+            <!-- MAPEL -->
+            <input type="text"
+                   name="mapel"
+                   placeholder="📚 Mata Pelajaran"
+                   class="p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none"
+                   required>
 
-            <button class="md:col-span-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-bold shadow-lg hover:scale-[1.02] transition">
+            <!-- TUGAS -->
+            <input type="number"
+                   name="tugas"
+                   min="0"
+                   max="100"
+                   placeholder="📝 Nilai Tugas"
+                   class="p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none"
+                   required>
+
+            <!-- UTS -->
+            <input type="number"
+                   name="uts"
+                   min="0"
+                   max="100"
+                   placeholder="📘 Nilai UTS"
+                   class="p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none"
+                   required>
+
+            <!-- UAS -->
+            <input type="number"
+                   name="uas"
+                   min="0"
+                   max="100"
+                   placeholder="📗 Nilai UAS"
+                   class="p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none"
+                   required>
+
+            <button
+                class="md:col-span-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-bold shadow-lg hover:scale-[1.02] transition">
+
                 💾 Simpan Nilai
+
             </button>
 
         </form>
@@ -62,7 +101,6 @@
     <!-- TABLE CARD -->
     <div class="bg-white rounded-3xl shadow-xl border overflow-hidden">
 
-        <!-- TABLE HEADER -->
         <div class="p-6 border-b bg-gray-50 flex justify-between items-center">
 
             <h2 class="font-bold text-gray-700">
@@ -78,25 +116,25 @@
         <table class="w-full text-sm">
 
             <thead class="bg-gray-100 text-gray-600 uppercase text-xs tracking-widest">
+
                 <tr>
                     <th class="p-4 text-center">No</th>
-                    <th class="p-4 text-left">Nama</th>
+                    <th class="p-4 text-left">Nama Siswa</th>
                     <th class="p-4 text-left">Mapel</th>
                     <th class="p-4 text-center">Tugas</th>
                     <th class="p-4 text-center">UTS</th>
                     <th class="p-4 text-center">UAS</th>
                     <th class="p-4 text-center">Nilai Akhir</th>
-
-                    <!-- ✅ TAMBAHAN -->
                     <th class="p-4 text-center">Aksi</th>
                 </tr>
+
             </thead>
 
             <tbody class="divide-y">
 
                 @forelse($data as $n)
 
-                <tr class="hover:bg-blue-50/40 transition">
+                <tr class="hover:bg-blue-50 transition">
 
                     <td class="p-4 text-center font-bold text-gray-500">
                         {{ $loop->iteration }}
@@ -128,25 +166,26 @@
                         {{ number_format($n->nilai_akhir, 2) }}
                     </td>
 
-                    <!-- ✅ TAMBAHAN AKSI -->
                     <td class="p-4 text-center space-x-2">
 
-                        <!-- EDIT -->
                         <a href="/nilai/edit/{{ $n->id }}"
                            class="inline-block px-3 py-1 text-xs font-bold text-white bg-yellow-500 rounded-lg hover:bg-yellow-600">
                             ✏️ Edit
                         </a>
 
-                        <!-- DELETE -->
-                        <form action="/nilai/hapus/{{ $n->id }}" method="POST" class="inline">
+                        <form action="/nilai/hapus/{{ $n->id }}"
+                              method="POST"
+                              class="inline">
+
                             @csrf
                             @method('DELETE')
 
                             <button type="submit"
-                                    onclick="return confirm('Yakin ingin hapus data ini?')"
+                                    onclick="return confirm('Yakin ingin menghapus data ini?')"
                                     class="px-3 py-1 text-xs font-bold text-white bg-red-600 rounded-lg hover:bg-red-700">
                                 🗑 Hapus
                             </button>
+
                         </form>
 
                     </td>
@@ -156,9 +195,14 @@
                 @empty
 
                 <tr>
-                    <td colspan="8" class="py-16 text-center text-gray-400">
+
+                    <td colspan="8"
+                        class="py-16 text-center text-gray-400">
+
                         Belum ada data nilai 😢
+
                     </td>
+
                 </tr>
 
                 @endforelse
