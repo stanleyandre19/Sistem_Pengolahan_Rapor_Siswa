@@ -4,19 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Nilai;
+use App\Models\Siswa;
 
 class NilaiController extends Controller
 {
-    // 📄 TAMPIL DATA
     public function index()
     {
         $data = Nilai::all();
-        return view('pages.nilai', compact('data'));
+        $siswa = Siswa::all();
+
+        return view('pages.nilai', compact('data', 'siswa'));
     }
 
-    // ➕ SIMPAN DATA (CREATE)
     public function store(Request $request)
     {
+        $request->validate([
+            'nama_siswa' => 'required',
+            'mapel' => 'required',
+            'tugas' => 'required|numeric|min:0|max:100',
+            'uts' => 'required|numeric|min:0|max:100',
+            'uas' => 'required|numeric|min:0|max:100',
+        ]);
+
         Nilai::create([
             'nama_siswa' => $request->nama_siswa,
             'mapel'      => $request->mapel,
@@ -29,16 +38,24 @@ class NilaiController extends Controller
         return redirect('/nilai');
     }
 
-    // ✏️ EDIT (ambil data)
     public function edit($id)
     {
         $data = Nilai::findOrFail($id);
-            return view('pages.edit_nilai', compact('data'));
+        $siswa = Siswa::all();
+
+        return view('pages.edit_nilai', compact('data', 'siswa'));
     }
 
-    // 💾 UPDATE (simpan edit)
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'nama_siswa' => 'required',
+            'mapel' => 'required',
+            'tugas' => 'required|numeric|min:0|max:100',
+            'uts' => 'required|numeric|min:0|max:100',
+            'uas' => 'required|numeric|min:0|max:100',
+        ]);
+
         $data = Nilai::findOrFail($id);
 
         $data->update([
@@ -53,7 +70,6 @@ class NilaiController extends Controller
         return redirect('/nilai');
     }
 
-    // 🗑 DELETE
     public function destroy($id)
     {
         $data = Nilai::findOrFail($id);
