@@ -28,12 +28,19 @@ class SiswaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required',
-            'nis' => 'required',
+            'nama'  => 'required',
+            'nis'   => 'required',
             'kelas' => 'required',
+            'foto'  => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        Siswa::create($request->all());
+        $data = $request->all();
+
+        if ($request->hasFile('foto')) {
+            $data['foto'] = $request->file('foto')->store('foto_siswa', 'public');
+        }
+
+        Siswa::create($data);
 
         return redirect('/siswa')->with('success', 'Data siswa berhasil ditambahkan');
     }
@@ -49,13 +56,20 @@ class SiswaController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama' => 'required',
-            'nis' => 'required',
+            'nama'  => 'required',
+            'nis'   => 'required',
             'kelas' => 'required',
         ]);
 
         $siswa = Siswa::findOrFail($id);
-        $siswa->update($request->all());
+
+        $data = $request->all();
+
+        if ($request->hasFile('foto')) {
+            $data['foto'] = $request->file('foto')->store('foto_siswa', 'public');
+        }
+
+        $siswa->update($data);
 
         return redirect('/siswa')->with('success', 'Data berhasil diupdate');
     }
