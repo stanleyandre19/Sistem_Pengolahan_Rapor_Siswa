@@ -1,326 +1,231 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-<meta charset="utf-8">
+    <meta charset="UTF-8">
+    <title>Rapor Siswa - {{ $siswa->nama }}</title>
+    <style>
+        body { 
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+            color: #333; 
+            font-size: 13px; 
+        }
+        
+        /* Header */
+        .header-title { font-size: 22px; font-weight: bold; color: #111827; margin-bottom: 4px; }
+        .breadcrumb { font-size: 11px; color: #6b7280; margin-bottom: 20px; }
 
-<style>
+        /* Container Atas (Layout pakai tabel agar rapi di DomPDF) */
+        .info-container { width: 100%; margin-bottom: 20px; border-spacing: 15px 0; border-collapse: separate; margin-left: -15px; }
+        .info-box { 
+            border: 1px solid #e5e7eb; 
+            padding: 15px; 
+            border-radius: 8px; 
+            vertical-align: top;
+        }
 
-body{
-    font-family: DejaVu Sans, sans-serif;
-    font-size:11px;
-    color:#1e293b;
-    margin:15px;
-}
+        /* Detail Siswa */
+        .profile-table { width: 100%; font-size: 12px; }
+        .profile-table td { padding: 4px 0; }
+        .profile-table .label { width: 90px; color: #4b5563; }
+        .profile-table .colon { width: 15px; text-align: center; }
+        .profile-table .value { font-weight: bold; color: #1f2937; }
+        .nama-siswa { font-size: 14px; font-weight: bold; margin-bottom: 10px; display: block; color: #111827; }
 
-.header{
-    background:#2563eb;
-    color:white;
-    text-align:center;
-    padding:12px;
-    border-radius:8px;
-}
+        /* Keterangan Nilai (Legend) */
+        .legend-title { font-weight: bold; margin-bottom: 10px; font-size: 13px; color: #111827; }
+        .legend-table { width: 100%; font-size: 11px; color: #4b5563; }
+        .legend-table td { padding: 3px 0; }
+        .dot { 
+            display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; 
+        }
 
-.header h1{
-    margin:0;
-    font-size:20px;
-}
+        /* Tabel Utama Nilai */
+        .table-nilai { 
+            width: 100%; border-collapse: collapse; border: 1px solid #e5e7eb; 
+            border-radius: 8px; overflow: hidden;
+        }
+        .table-nilai th { 
+            background-color: #f9fafb; padding: 10px; text-align: left; 
+            font-size: 12px; border-bottom: 2px solid #e5e7eb; color: #374151;
+        }
+        .table-nilai td { 
+            padding: 10px; border-bottom: 1px solid #e5e7eb; font-size: 12px; color: #1f2937;
+        }
+        .table-nilai tr:nth-child(even) { background-color: #fafafa; }
+        .text-center { text-align: center; }
+        .text-bold { font-weight: bold; }
 
-.header p{
-    margin:3px 0 0;
-    font-size:10px;
-}
-
-.card{
-    border:1px solid #e5e7eb;
-    border-radius:8px;
-    padding:10px;
-    margin-top:10px;
-}
-
-.info-table{
-    width:100%;
-}
-
-.info-table td{
-    padding:3px;
-}
-
-.nilai{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:10px;
-}
-
-.nilai th{
-    background:#2563eb;
-    color:white;
-    padding:7px;
-    font-size:10px;
-}
-
-.nilai td{
-    border:1px solid #e5e7eb;
-    padding:6px;
-    font-size:10px;
-}
-
-.nilai tr:nth-child(even){
-    background:#f8fafc;
-}
-
-.badge-lulus{
-    color:#16a34a;
-    font-weight:bold;
-}
-
-.badge-remedial{
-    color:#dc2626;
-    font-weight:bold;
-}
-
-.summary{
-    margin-top:12px;
-    text-align:center;
-}
-
-.box{
-    width:31%;
-    display:inline-block;
-    border:1px solid #e5e7eb;
-    border-radius:8px;
-    padding:8px;
-}
-
-.box small{
-    color:#64748b;
-}
-
-.box h2{
-    margin:3px 0;
-    color:#2563eb;
-    font-size:16px;
-}
-
-.footer{
-    margin-top:20px;
-}
-
-.ttd{
-    width:100%;
-}
-
-.ttd td{
-    text-align:center;
-}
-
-.garis{
-    margin-top:30px;
-}
-
-.keterangan{
-    margin-top:10px;
-    background:#eff6ff;
-    border-left:4px solid #2563eb;
-    padding:8px;
-    border-radius:5px;
-    font-size:10px;
-}
-
-</style>
-
+        /* Row Rata-rata & Predikat Umum */
+        .summary-row td { background-color: #f9fafb; font-weight: bold; font-size: 13px; color: #1e3a8a;}
+    </style>
 </head>
-
 <body>
 
-<div class="header">
-    <h1> RAPOR SISWA</h1>
-    <p>Sistem Pengolahan Rapor Siswa SD</p>
-</div>
+    <div class="header-title">Rapor Siswa</div>
+    <div class="breadcrumb">Home / Rapor / Lihat Rapor</div>
 
-<div class="card">
+    <table class="info-container">
+        <tr>
+            <td class="info-box" style="width: 55%;">
+                <table class="profile-table">
+                    <tr>
+                        <td rowspan="5" style="width: 70px; text-align: center; padding-right: 15px;">
+                            @php
+                                $pesanError = "";
+                                $base64 = "";
 
-<table class="info-table">
+                                // 1. Cek apakah di database ada nama fotonya
+                                if (empty($siswa->foto)) {
+                                    $pesanError = "Data foto kosong di Database";
+                                } else {
+                                    $imagePath = storage_path('app/public/'. $siswa->foto);
+                                    
+                                    // 2. Cek apakah file fisiknya benar-benar ada di dalam folder storage
+                                    if (!file_exists($imagePath)) {
+                                        $pesanError = "File tidak ditemukan di path: " . $imagePath;
+                                    } else {
+                                        // 3. Jika ada, konversi ke Base64 dengan tipe yang akurat
+                                        $mime = mime_content_type($imagePath);
+                                        $dataImg = file_get_contents($imagePath);
+                                        $base64 = 'data:' . $mime . ';base64,' . base64_encode($dataImg);
+                                    }
+                                }
+                            @endphp
 
-<tr>
-    <td width="120"><b>Nama Siswa</b></td>
-    <td>: {{ $siswa->nama }}</td>
-</tr>
+                            @if($pesanError != "")
+                                <div style="color: red; font-size: 9px; border: 1px solid red; padding: 3px; word-wrap: break-word; text-align: left;">
+                                    ERROR: {{ $pesanError }}
+                                </div>
+                            @else
+                                <img src="{{ $base64 }}" alt="Foto Siswa" style="width: 60px; height: 80px; object-fit: cover; border: 1px solid #d1d5db; padding: 2px; border-radius: 4px;">
+                            @endif
+                        </td>
+                        <td colspan="3"><span class="nama-siswa">{{ ucwords($siswa->nama) }}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="label">NIS</td><td class="colon">:</td><td class="value">{{ $siswa->nis }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Kelas</td><td class="colon">:</td><td class="value">{{ $siswa->kelas }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Semester</td><td class="colon">:</td><td class="value">Ganjil</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Tahun Ajaran</td><td class="colon">:</td><td class="value">2025/2026</td>
+                    </tr>
+                </table>
+            </td>
 
-<tr>
-    <td><b>NIS</b></td>
-    <td>: {{ $siswa->nis ?? '-' }}</td>
-</tr>
+            <td class="info-box" style="width: 45%;">
+                <div class="legend-title">Keterangan Nilai</div>
+                <table class="legend-table">
+                    <tr>
+                        <td style="width: 45%;"><span class="dot" style="background-color: #6366f1;"></span> 90 - 100</td>
+                        <td>: Sangat Baik (A)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="dot" style="background-color: #10b981;"></span> 80 - 89</td>
+                        <td>: Baik (B)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="dot" style="background-color: #f59e0b;"></span> 70 - 79</td>
+                        <td>: Cukup (C)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="dot" style="background-color: #ef4444;"></span> < 70</td>
+                        <td>: Kurang (D)</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 
-<tr>
-    <td><b>Kelas</b></td>
-    <td>: {{ $siswa->kelas ?? '-' }}</td>
-</tr>
+    <table class="table-nilai">
+        <thead>
+            <tr>
+                <th class="text-center" style="width: 5%;">No</th>
+                <th style="width: 45%;">Mata Pelajaran</th>
+                <th class="text-center" style="width: 15%;">KKM</th>
+                <th class="text-center" style="width: 15%;">Nilai</th>
+                <th class="text-center" style="width: 20%;">Predikat</th>
+            </tr>
+        </thead>
+        <tbody>
+            @php
+                $totalNilai = 0;
+                $jumlahMapel = count($nilai);
+            @endphp
 
-<tr>
-    <td><b>Tanggal Cetak</b></td>
-    <td>: {{ date('d-m-Y') }}</td>
-</tr>
+            @forelse($nilai as $index => $n)
+                @php
+                    $nilaiAkhir = $n->nilai_akhir ?? 0;
+                    $totalNilai += $nilaiAkhir;
+                    
+                    if ($nilaiAkhir >= 90) { $predikat = 'A'; }
+                    elseif ($nilaiAkhir >= 80) { $predikat = 'B'; }
+                    elseif ($nilaiAkhir >= 70) { $predikat = 'C'; }
+                    else { $predikat = 'D'; }
+                @endphp
+                <tr>
+                    <td class="text-center">{{ $index + 1 }}</td>
+                    <td>{{ $n->mapel }}</td>
+                    <td class="text-center">75</td> <td class="text-center">{{ $nilaiAkhir }}</td>
+                    <td class="text-center text-bold">{{ $predikat }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="5" class="text-center" style="padding: 20px;">Belum ada data nilai.</td>
+                </tr>
+            @endforelse
 
+            @php
+                $rataRata = $jumlahMapel > 0 ? $totalNilai / $jumlahMapel : 0;
+                
+                if ($rataRata >= 90) { $predikatUmum = 'Sangat Baik'; }
+                elseif ($rataRata >= 80) { $predikatUmum = 'Baik'; }
+                elseif ($rataRata >= 70) { $predikatUmum = 'Cukup'; }
+                else { $predikatUmum = 'Kurang'; }
+            @endphp
+        </tbody>
+        
+        <tfoot>
+            <tr class="summary-row">
+                <td colspan="3" style="text-align: right; padding-right: 25px;">Rata-rata</td>
+                <td class="text-center">{{ number_format($rataRata, 2) }}</td>
+                <td></td>
+            </tr>
+            <tr class="summary-row">
+                <td colspan="3" style="text-align: right; padding-right: 25px;">Predikat Umum</td>
+                <td colspan="2" class="text-center">{{ $predikatUmum }}</td>
+            </tr>
+        </tfoot>
+    </table>
+    
+    <!-- TANDA TANGAN -->
+<table style="width:100%; margin-top:60px;">
+    <tr>
+        <td style="width:50%; text-align:center;">
+            <div style="font-size:14px;">
+                Orang Tua / Wali
+            </div>
+
+            <div style="height:80px;"></div>
+
+            <div style="width:220px; margin:auto; border-bottom:1px solid black;"></div>
+        </td>
+
+        <td style="width:50%; text-align:center;">
+            <div style="font-size:14px;">
+                Wali Kelas
+            </div>
+
+            <div style="height:80px;"></div>
+
+            <div style="width:220px; margin:auto; border-bottom:1px solid black;"></div>
+        </td>
+    </tr>
 </table>
-
-</div>
-
-<table class="nilai">
-
-<thead>
-
-<tr>
-    <th width="40">No</th>
-    <th>Mata Pelajaran</th>
-    <th width="70">Nilai</th>
-    <th width="70">Predikat</th>
-    <th width="90">Status</th>
-</tr>
-
-</thead>
-
-<tbody>
-
-@php
-$total = 0;
-@endphp
-
-@foreach($nilai as $n)
-
-@php
-
-$total += $n->nilai_akhir;
-
-if($n->nilai_akhir >= 90){
-    $predikat = 'A';
-}
-elseif($n->nilai_akhir >= 80){
-    $predikat = 'B';
-}
-elseif($n->nilai_akhir >= 70){
-    $predikat = 'C';
-}
-else{
-    $predikat = 'D';
-}
-
-@endphp
-
-<tr>
-
-<td align="center">
-    {{ $loop->iteration }}
-</td>
-
-<td>
-    {{ $n->mapel }}
-</td>
-
-<td align="center">
-    {{ $n->nilai_akhir }}
-</td>
-
-<td align="center">
-    {{ $predikat }}
-</td>
-
-<td align="center">
-
-@if($n->nilai_akhir >= 75)
-
-<span class="badge-lulus">
-    LULUS
-</span>
-
-@else
-
-<span class="badge-remedial">
-    REMEDIAL
-</span>
-
-@endif
-
-</td>
-
-</tr>
-
-@endforeach
-
-</tbody>
-
-</table>
-
-@php
-
-$rata = count($nilai) > 0
-        ? round($total / count($nilai),2)
-        : 0;
-
-@endphp
-
-<div class="summary">
-
-<div class="box">
-    <small>Rata-rata Nilai</small>
-    <h2>{{ $rata }}</h2>
-</div>
-
-<div class="box">
-    <small>Total Mapel</small>
-    <h2>{{ count($nilai) }}</h2>
-</div>
-
-<div class="box">
-    <small>Status Akhir</small>
-    <h2>
-        {{ $rata >= 75 ? 'LULUS' : 'REMEDIAL' }}
-    </h2>
-</div>
-
-</div>
-
-<div class="keterangan">
-
-<b>Keterangan:</b><br>
-
-A = Sangat Baik (90-100)<br>
-B = Baik (80-89)<br>
-C = Cukup (70-79)<br>
-D = Kurang (<70)
-
-</div>
-
-<div class="footer">
-
-<table class="ttd">
-
-<tr>
-
-<td>
-
-Orang Tua / Wali
-
-<div class="garis">
-_____________________
-</div>
-
-</td>
-
-<td>
-
-Wali Kelas
-
-<div class="garis">
-_____________________
-</div>
-
-</td>
-
-</tr>
-
-</table>
-
-</div>
 
 </body>
 </html>
