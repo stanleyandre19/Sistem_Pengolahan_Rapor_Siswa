@@ -12,6 +12,7 @@ use App\Http\Controllers\WalikelasController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\NilaiController;
+use App\Http\Controllers\MengajarController;
 
 // MODEL
 use App\Models\Siswa;
@@ -156,6 +157,29 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/hapus/{id}', [MapelController::class, 'destroy']);
     });
 
+/*
+|--------------------------------------------------------------------------
+| MENGAJAR
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/mengajar', [MengajarController::class, 'index'])
+    ->name('mengajar.index');
+
+Route::get('/mengajar/create', [MengajarController::class, 'create'])
+    ->name('mengajar.create');
+
+Route::post('/mengajar/store', [MengajarController::class, 'store'])
+    ->name('mengajar.store');
+
+Route::get('/mengajar/edit/{mengajar}', [MengajarController::class, 'edit'])
+    ->name('mengajar.edit');
+
+Route::put('/mengajar/update/{mengajar}', [MengajarController::class, 'update'])
+    ->name('mengajar.update');
+
+Route::get('/mengajar/delete/{mengajar}', [MengajarController::class, 'destroy'])
+    ->name('mengajar.destroy');
 });
 
 /*

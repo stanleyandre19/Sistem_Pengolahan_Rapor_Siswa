@@ -44,6 +44,11 @@
                 👔 Data Wali Kelas
             </a>
 
+            <a href="/mengajar"
+                class="block px-4 py-3 rounded-2xl hover:bg-blue-50 hover:text-blue-600 transition">
+                📖 Data Mengajar
+            </a>
+
         @endif
 
         {{-- GURU --}}

@@ -12,4 +12,9 @@ class Guru extends Model
         'mapel',
         'email'
     ];
+
+    public function mengajars()
+    {
+        return $this->hasMany(Mengajar::class);
+    }
 }

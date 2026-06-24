@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Mapel extends Model
+class Mengajar extends Model
 {
     protected $fillable = [
-        'kode_mapel',
-        'nama_mapel',
-        'guru_id'
+        'guru_id',
+        'mapel_id',
+        'kelas'
     ];
 
     public function guru()
@@ -17,8 +17,8 @@ class Mapel extends Model
         return $this->belongsTo(Guru::class);
     }
 
-    public function mengajars()
+    public function mapel()
     {
-        return $this->hasMany(Mengajar::class);
+        return $this->belongsTo(Mapel::class);
     }
 }
