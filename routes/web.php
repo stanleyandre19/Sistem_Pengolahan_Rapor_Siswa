@@ -38,25 +38,6 @@ Route::get('/logout', [LoginController::class, 'logout']);
 
 /*
 |--------------------------------------------------------------------------
-| SUNTIK USER WALI KELAS (TEST LOGIN)
-|--------------------------------------------------------------------------
-*/
-Route::get('/suntik-wali', function () {
-
-    \App\Models\User::updateOrCreate(
-        ['email' => 'wali@rapor.id'],
-        [
-            'name' => 'Wali Kelas',
-            'password' => \Illuminate\Support\Facades\Hash::make('wali123'),
-            'role' => 'walikelas'
-        ]
-    );
-
-    return "SUKSES! login: wali@rapor.id | pass: wali123";
-});
-
-/*
-|--------------------------------------------------------------------------
 | RAPOR (ADMIN + WALI KELAS)
 |--------------------------------------------------------------------------
 */
