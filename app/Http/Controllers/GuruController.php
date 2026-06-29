@@ -17,19 +17,19 @@ class GuruController extends Controller
 
     public function store(Request $request)
     {
-        // Simpan data guru
-        Guru::create([
-            'nama'  => $request->nama,
-            'nip'   => $request->nip,
-            'mapel' => $request->mapel,
-        ]);
-
+          
         // Otomatis buat akun login guru
-        User::create([
+        $user = User::create([
             'name'     => $request->nama,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
             'role'     => 'guru',
+        ]);
+        // Simpan data guru
+        Guru::create([
+            'user_id'  => $user->id,
+            'nama'   => $request->nip,
+            'mip' => $request->mapel,
         ]);
 
         return redirect('/guru')

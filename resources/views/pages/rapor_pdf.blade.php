@@ -169,7 +169,7 @@
                 @endphp
                 <tr>
                     <td class="text-center">{{ $index + 1 }}</td>
-                    <td>{{ $n->mapel }}</td>
+                    <td>{{ $n->mapel->nama_mapel ?? 'Mapel Dihapus' }}</td>
                     <td class="text-center">75</td> <td class="text-center">{{ $nilaiAkhir }}</td>
                     <td class="text-center text-bold">{{ $predikat }}</td>
                 </tr>

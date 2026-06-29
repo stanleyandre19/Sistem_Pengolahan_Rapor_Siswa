@@ -37,18 +37,7 @@
                 placeholder="Masukkan NIP">
         </div>
 
-        <!-- Mata Pelajaran -->
-        <div class="mb-4">
-            <label class="block font-semibold mb-2">
-                Mata Pelajaran
-            </label>
-            <input
-                type="text"
-                name="mapel"
-                value="{{ $data->mapel }}"
-                class="w-full p-2 border rounded"
-                placeholder="Masukkan mata pelajaran">
-        </div>
+
 
         <button type="submit"
             class="bg-yellow-500 text-white px-4 py-2 rounded">

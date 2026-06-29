@@ -7,11 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Guru extends Model
 {
     protected $fillable = [
+        'user_id',
         'nama',
         'nip',
-        'mapel',
-        'email'
+        'is_walikelas',
+        'walikelas_kelas'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function mengajars()
     {

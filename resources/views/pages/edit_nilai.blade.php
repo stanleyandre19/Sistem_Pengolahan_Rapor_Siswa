@@ -29,10 +29,17 @@
                     Nama Siswa
                 </label>
 
-                <input type="text"
-                       name="nama_siswa"
-                       value="{{ $data->nama_siswa }}"
-                       class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-green-400">
+                <select name="siswa_id"
+                        id="siswa_id"
+                        class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-green-400"
+                        required>
+                    <option value="" data-kelas="">👤 Pilih Siswa</option>
+                    @foreach($siswa as $s)
+                        <option value="{{ $s->id }}" data-kelas="{{ $s->kelas }}" {{ $data->siswa_id == $s->id ? 'selected' : '' }}>
+                            {{ $s->nama }} (Kelas {{ $s->kelas }})
+                        </option>
+                    @endforeach
+                </select>
             </div>
 
             {{-- Mapel --}}
@@ -41,11 +48,55 @@
                     Mata Pelajaran
                 </label>
 
-                <input type="text"
-                       name="mapel"
-                       value="{{ $data->mapel }}"
-                       class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-green-400">
+                <select name="mapel_id"
+                        id="mapel_id"
+                        class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-green-400"
+                        required>
+                    <option value="" data-kelas="">📚 Pilih Mata Pelajaran</option>
+                    @if(isset($user) && $user->role === 'guru')
+                        @foreach($mengajars as $m)
+                            <option value="{{ $m->mapel->id }}" data-kelas="{{ $m->kelas }}" {{ $data->mapel_id == $m->mapel->id && $data->siswa->kelas == $m->kelas ? 'selected' : '' }}>
+                                {{ $m->mapel->nama_mapel }} (Kelas {{ $m->kelas }})
+                            </option>
+                        @endforeach
+                    @else
+                        @foreach($mengajars as $m)
+                            <option value="{{ $m->id }}" data-kelas="" {{ $data->mapel_id == $m->id ? 'selected' : '' }}>
+                                {{ $m->nama_mapel }}
+                            </option>
+                        @endforeach
+                    @endif
+                </select>
             </div>
+
+            <script>
+                // Initialize filtering on load
+                function filterMapel() {
+                    var mapelSelect = document.getElementById('mapel_id');
+                    var selectedKelas = mapelSelect.options[mapelSelect.selectedIndex].getAttribute('data-kelas');
+                    var siswaSelect = document.getElementById('siswa_id');
+                    var options = siswaSelect.options;
+
+                    for (var i = 1; i < options.length; i++) {
+                        var opt = options[i];
+                        if (!selectedKelas || opt.getAttribute('data-kelas') === selectedKelas) {
+                            opt.hidden = false;
+                            opt.disabled = false;
+                        } else {
+                            opt.hidden = true;
+                            opt.disabled = true;
+                        }
+                    }
+                }
+                
+                document.getElementById('mapel_id').addEventListener('change', function() {
+                    filterMapel();
+                    document.getElementById('siswa_id').value = ""; // Reset pilihan siswa on mapel change
+                });
+
+                // Run on load to set initial state
+                window.onload = filterMapel;
+            </script>
 
             {{-- Tugas --}}
             <div>

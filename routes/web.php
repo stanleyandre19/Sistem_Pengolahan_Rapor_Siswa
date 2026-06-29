@@ -44,20 +44,26 @@ Route::get('/logout', [LoginController::class, 'logout']);
 Route::middleware(['auth', 'role:admin,walikelas'])->group(function () {
 
     Route::get('/rapor', function () {
+        $user = Auth::user();
+        $query = Siswa::query();
+
+        if ($user->role === 'walikelas') {
+            $query->where('kelas', $user->walikelas->kelas);
+        }
+
         return view('rapor.index', [
-            'dataSiswa' => Siswa::all()
+            'dataSiswa' => $query->get()
         ]);
     });
 
     Route::get('/rapor/{id}/pdf', function ($id) {
 
         $siswa = Siswa::findOrFail($id);
-
-        $nilai = Nilai::where('nama_siswa', $siswa->nama)->get();
+        $nilai = Nilai::with('mapel')->where('siswa_id', $siswa->id)->get();
 
         $pdf = Pdf::loadView('pages.rapor_pdf', compact('siswa', 'nilai'));
 
-        return $pdf->download('rapor-' . $siswa->nama . '.pdf');
+        return $pdf->stream('rapor-' . $siswa->nama . '.pdf');
 
     })->name('rapor.pdf');
 
@@ -188,12 +194,21 @@ Route::middleware(['auth', 'role:guru'])->group(function () {
 Route::middleware(['auth', 'role:walikelas'])->group(function () {
 
     Route::get('/walikelas/dashboard', function () {
+        $user = Auth::user();
+        $kelas = $user->walikelas->kelas;
+        
+        $siswaQuery = Siswa::where('kelas', $kelas);
+        
+        // Nilai query
+        $nilaiQuery = Nilai::whereHas('siswa', function($q) use ($kelas) {
+            $q->where('kelas', $kelas);
+        });
 
         return view('pages.dashboard_wali', [
-            'jumlahSiswa' => Siswa::count(),
-            'jumlahNilai' => Nilai::count(),
+            'jumlahSiswa' => $siswaQuery->count(),
+            'jumlahNilai' => $nilaiQuery->count(),
             'jumlahMapel' => Mapel::count(),
-            'dataSiswa' => Siswa::latest()->take(5)->get(),
+            'dataSiswa' => $siswaQuery->latest()->take(5)->get(),
         ]);
 
     });

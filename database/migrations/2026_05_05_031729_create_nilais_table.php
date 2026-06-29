@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('nilais', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_siswa');
-            $table->string('mapel');
+            $table->foreignId('siswa_id')->constrained('siswas')->onDelete('cascade');
+            $table->foreignId('mapel_id')->constrained('mapels')->onDelete('cascade');
 
             $table->integer('tugas');
             $table->integer('uts');

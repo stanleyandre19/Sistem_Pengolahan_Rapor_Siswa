@@ -37,28 +37,54 @@
             @csrf
 
             <!-- NAMA SISWA DROPDOWN -->
-            <select name="nama_siswa"
+            <select name="siswa_id"
+                    id="siswa_id"
                     class="p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none"
                     required>
-
-                <option value="">
-                    👤 Pilih Siswa
-                </option>
-
+                <option value="" data-kelas="">👤 Pilih Siswa</option>
                 @foreach($siswa as $s)
-                    <option value="{{ $s->nama }}">
-                        {{ $s->nama }}
-                    </option>
+                    <option value="{{ $s->id }}" data-kelas="{{ $s->kelas }}">{{ $s->nama }} (Kelas {{ $s->kelas }})</option>
                 @endforeach
-
             </select>
 
-            <!-- MAPEL -->
-            <input type="text"
-                   name="mapel"
-                   placeholder="📚 Mata Pelajaran"
-                   class="p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none"
-                   required>
+            <!-- MAPEL DROPDOWN -->
+            <select name="mapel_id"
+                    id="mapel_id"
+                    class="p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none"
+                    required>
+                <option value="" data-kelas="">📚 Pilih Mata Pelajaran</option>
+                @if(isset($user) && $user->role === 'guru')
+                    @foreach($mengajars as $m)
+                        <option value="{{ $m->mapel->id }}" data-kelas="{{ $m->kelas }}">{{ $m->mapel->nama_mapel }} (Kelas {{ $m->kelas }})</option>
+                    @endforeach
+                @else
+                    @foreach($mengajars as $m)
+                        <option value="{{ $m->id }}" data-kelas="">{{ $m->nama_mapel }}</option>
+                    @endforeach
+                @endif
+            </select>
+
+            <script>
+                document.getElementById('mapel_id').addEventListener('change', function() {
+                    var selectedKelas = this.options[this.selectedIndex].getAttribute('data-kelas');
+                    var siswaSelect = document.getElementById('siswa_id');
+                    var options = siswaSelect.options;
+
+                    // Reset selected
+                    siswaSelect.value = "";
+
+                    for (var i = 1; i < options.length; i++) {
+                        var opt = options[i];
+                        if (!selectedKelas || opt.getAttribute('data-kelas') === selectedKelas) {
+                            opt.hidden = false;
+                            opt.disabled = false;
+                        } else {
+                            opt.hidden = true;
+                            opt.disabled = true;
+                        }
+                    }
+                });
+            </script>
 
             <!-- TUGAS -->
             <input type="number"
@@ -141,12 +167,12 @@
                     </td>
 
                     <td class="p-4 font-semibold text-gray-800">
-                        {{ $n->nama_siswa }}
+                        {{ $n->siswa->nama ?? 'Siswa Dihapus' }}
                     </td>
 
                     <td class="p-4">
                         <span class="px-3 py-1 rounded-full text-xs bg-indigo-100 text-indigo-700">
-                            {{ $n->mapel }}
+                            {{ $n->mapel->nama_mapel ?? 'Mapel Dihapus' }}
                         </span>
                     </td>
 

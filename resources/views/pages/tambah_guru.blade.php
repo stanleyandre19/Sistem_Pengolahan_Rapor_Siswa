@@ -43,17 +43,7 @@
                        class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-400">
             </div>
 
-            {{-- Mata Pelajaran --}}
-            <div>
-                <label class="block font-semibold text-gray-700 mb-2">
-                    Mata Pelajaran
-                </label>
 
-                <input type="text"
-                       name="mapel"
-                       required
-                       class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-400">
-            </div>
 
             <hr>
 
