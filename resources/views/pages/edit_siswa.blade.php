@@ -24,9 +24,15 @@
 
     <div>
         <label class="block text-sm font-semibold">Kelas</label>
-        <input type="text" name="kelas"
-               value="{{ $siswa->kelas }}"
-               class="w-full border p-2 rounded mt-1">
+        <select name="kelas" class="w-full border p-2 rounded mt-1" required>
+            <option value="" disabled>-- Pilih Kelas --</option>
+            <option value="Kelas 1" {{ $siswa->kelas == 'Kelas 1' ? 'selected' : '' }}>Kelas 1</option>
+            <option value="Kelas 2" {{ $siswa->kelas == 'Kelas 2' ? 'selected' : '' }}>Kelas 2</option>
+            <option value="Kelas 3" {{ $siswa->kelas == 'Kelas 3' ? 'selected' : '' }}>Kelas 3</option>
+            <option value="Kelas 4" {{ $siswa->kelas == 'Kelas 4' ? 'selected' : '' }}>Kelas 4</option>
+            <option value="Kelas 5" {{ $siswa->kelas == 'Kelas 5' ? 'selected' : '' }}>Kelas 5</option>
+            <option value="Kelas 6" {{ $siswa->kelas == 'Kelas 6' ? 'selected' : '' }}>Kelas 6</option>
+        </select>
     </div>
 
     <div class="flex gap-3">

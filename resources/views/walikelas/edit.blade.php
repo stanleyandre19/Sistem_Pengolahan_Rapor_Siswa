@@ -51,11 +51,17 @@
                     Kelas
                 </label>
 
-                <input type="text"
-                       name="kelas"
-                       value="{{ $data->kelas }}"
-                       required
-                       class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-indigo-400">
+                <select name="kelas"
+                        required
+                        class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-indigo-400">
+                    <option value="" disabled>-- Pilih Kelas --</option>
+                    <option value="Kelas 1" {{ $data->kelas == 'Kelas 1' ? 'selected' : '' }}>Kelas 1</option>
+                    <option value="Kelas 2" {{ $data->kelas == 'Kelas 2' ? 'selected' : '' }}>Kelas 2</option>
+                    <option value="Kelas 3" {{ $data->kelas == 'Kelas 3' ? 'selected' : '' }}>Kelas 3</option>
+                    <option value="Kelas 4" {{ $data->kelas == 'Kelas 4' ? 'selected' : '' }}>Kelas 4</option>
+                    <option value="Kelas 5" {{ $data->kelas == 'Kelas 5' ? 'selected' : '' }}>Kelas 5</option>
+                    <option value="Kelas 6" {{ $data->kelas == 'Kelas 6' ? 'selected' : '' }}>Kelas 6</option>
+                </select>
             </div>
 
             {{-- Jenis Kelamin --}}

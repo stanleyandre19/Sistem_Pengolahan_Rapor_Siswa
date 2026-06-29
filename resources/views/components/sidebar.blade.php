@@ -105,100 +105,42 @@
 
 
         {{-- GURU --}}
-
         @if(Auth::user()->role === 'guru')
 
-
-
             <a href="/guru/dashboard"
-
                class="block px-4 py-3 rounded-2xl hover:bg-blue-50 hover:text-blue-600 transition">
-
                 📊 Dashboard
-
             </a>
-
-
-
-            <a href="/guru"
-
-               class="block px-4 py-3 rounded-2xl hover:bg-blue-50 hover:text-blue-600 transition">
-
-                👩‍🏫 Data Guru
-
-            </a>
-
-
 
             <a href="/siswa"
-
                class="block px-4 py-3 rounded-2xl hover:bg-blue-50 hover:text-blue-600 transition">
-
                 👨‍🎓 Data Siswa
-
             </a>
-
-
-
-            <a href="/mapel"
-
-               class="block px-4 py-3 rounded-2xl hover:bg-blue-50 hover:text-blue-600 transition">
-
-                📚 Mata Pelajaran
-
-            </a>
-
-
 
             <a href="/nilai"
-
                class="block px-4 py-3 rounded-2xl hover:bg-blue-50 hover:text-blue-600 transition">
-
                 ✏️ Input Nilai
-
             </a>
-
-
 
         @endif
 
-
-
         {{-- WALI KELAS --}}
-
         @if(Auth::user()->role === 'walikelas')
 
-
-
             <a href="/walikelas/dashboard"
-
                class="block px-4 py-3 rounded-2xl hover:bg-blue-50 hover:text-blue-600 transition">
-
                 📊 Dashboard
-
             </a>
-
-
 
             <a href="/siswa"
-
                class="block px-4 py-3 rounded-2xl hover:bg-blue-50 hover:text-blue-600 transition">
-
                 👨‍🎓 Data Siswa
-
             </a>
-
-
 
             <a href="/rapor"
-
                class="block px-4 py-3 rounded-2xl hover:bg-blue-50 hover:text-blue-600 transition">
-
                 🖨️ Lihat Rapor
-
             </a>
-
-
 
         @endif
 

@@ -12,10 +12,16 @@ class Walikelas extends Model
     protected $table = 'walikelas';
 
     protected $fillable = [
+        'user_id',
         'nama',
         'nip',
         'kelas',
         'jenis_kelamin',
         'no_hp',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

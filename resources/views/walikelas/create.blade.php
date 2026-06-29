@@ -49,10 +49,17 @@
                     Kelas
                 </label>
 
-                <input type="text"
-                       name="kelas"
-                       required
-                       class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-400">
+                <select name="kelas"
+                        required
+                        class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-400">
+                    <option value="" selected disabled>-- Pilih Kelas --</option>
+                    <option value="Kelas 1">Kelas 1</option>
+                    <option value="Kelas 2">Kelas 2</option>
+                    <option value="Kelas 3">Kelas 3</option>
+                    <option value="Kelas 4">Kelas 4</option>
+                    <option value="Kelas 5">Kelas 5</option>
+                    <option value="Kelas 6">Kelas 6</option>
+                </select>
             </div>
 
             {{-- Jenis Kelamin --}}
