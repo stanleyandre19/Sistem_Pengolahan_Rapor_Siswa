@@ -17,7 +17,6 @@ class GuruController extends Controller
 
     public function store(Request $request)
     {
-          
         // Otomatis buat akun login guru
         $user = User::create([
             'name'     => $request->nama,
@@ -25,11 +24,12 @@ class GuruController extends Controller
             'password' => Hash::make($request->password),
             'role'     => 'guru',
         ]);
-        // Simpan data guru
+
+        // Simpan data guru dengan user_id
         Guru::create([
-            'user_id'  => $user->id,
-            'nama'   => $request->nip,
-            'mip' => $request->mapel,
+            'user_id' => $user->id,
+            'nama'  => $request->nama,
+            'nip'   => $request->nip,
         ]);
 
         return redirect('/guru')
@@ -49,7 +49,6 @@ class GuruController extends Controller
         $guru->update([
             'nama'  => $request->nama,
             'nip'   => $request->nip,
-            'mapel' => $request->mapel,
         ]);
 
         return redirect('/guru');

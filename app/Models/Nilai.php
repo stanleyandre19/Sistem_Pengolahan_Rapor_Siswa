@@ -7,11 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 class Nilai extends Model
 {
     protected $fillable = [
-        'nama_siswa',
-        'mapel',
+        'siswa_id',
+        'mapel_id',
         'tugas',
         'uts',
         'uas',
         'nilai_akhir',
     ];
+
+    public function siswa()
+    {
+        return $this->belongsTo(Siswa::class);
+    }
+
+    public function mapel()
+    {
+        return $this->belongsTo(Mapel::class);
+    }
 }
