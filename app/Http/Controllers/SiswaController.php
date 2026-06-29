@@ -12,16 +12,33 @@ class SiswaController extends Controller
     {
         $query = Siswa::query();
 
+        // FILTER HAK AKSES
+        $user = \Illuminate\Support\Facades\Auth::user();
+        
+        if ($user->role === 'walikelas') {
+            // Wali kelas hanya melihat siswanya
+            $query->where('kelas', $user->walikelas->kelas);
+        } elseif ($user->role === 'guru') {
+            // Guru hanya melihat siswa di kelas yang dia ajarkan
+            $guruId = $user->guru->id;
+            $mengajars = \App\Models\Mengajar::where('guru_id', $guruId)->get();
+            $kelas_diajar = $mengajars->pluck('kelas')->unique();
+            
+            $query->whereIn('kelas', $kelas_diajar);
+        }
+
         // FITUR SEARCH
         if ($request->search) {
-            $query->where('nama', 'like', '%' . $request->search . '%')
+            $query->where(function($q) use ($request) {
+                $q->where('nama', 'like', '%' . $request->search . '%')
                   ->orWhere('nis', 'like', '%' . $request->search . '%')
                   ->orWhere('kelas', 'like', '%' . $request->search . '%');
+            });
         }
 
         $data = $query->latest()->get();
 
-        return view('pages.siswa', compact('data'));
+        return view('pages.siswa', compact('data', 'user'));
     }
 
     // SIMPAN DATA

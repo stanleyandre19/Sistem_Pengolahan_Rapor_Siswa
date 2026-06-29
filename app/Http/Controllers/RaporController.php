@@ -9,7 +9,14 @@ class RaporController extends Controller
     // 🔹 halaman list siswa (rapor)
     public function index()
     {
-        $dataSiswa = Siswa::all();
+        $user = \Illuminate\Support\Facades\Auth::user();
+        $query = Siswa::query();
+
+        if ($user->role === 'walikelas') {
+            $query->where('kelas', $user->walikelas->kelas);
+        }
+
+        $dataSiswa = $query->get();
 
         return view('rapor.index', compact('dataSiswa'));
     }
