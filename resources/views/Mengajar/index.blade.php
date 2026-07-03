@@ -4,34 +4,31 @@
 
 <div class="max-w-7xl mx-auto space-y-6">
 
-    <!-- HEADER -->
+    <!-- HERO HEADER -->
     <div class="relative overflow-hidden rounded-3xl shadow-xl">
 
         <div class="absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600"></div>
 
-        <div class="relative p-8 text-white">
+        <div class="relative p-8 text-white flex flex-col md:flex-row md:justify-between md:items-center gap-5">
 
-            <h1 class="text-4xl font-extrabold">
-                📚 Data Mengajar Guru
-            </h1>
+            <div>
+                <h1 class="text-3xl font-bold">
+                    📚 Data Mengajar Guru
+                </h1>
 
-            <p class="mt-2 text-blue-100">
-                Kelola penugasan guru berdasarkan mata pelajaran dan kelas.
-            </p>
+                <p class="text-blue-100 mt-1 text-sm">
+                    Kelola penugasan guru berdasarkan mata pelajaran dan kelas.
+                </p>
+            </div>
+
+            <a href="/mengajar/create"
+               class="bg-white text-indigo-600 font-bold px-6 py-3 rounded-2xl shadow-lg hover:scale-105 transition">
+
+                + Tambah Penugasan
+
+            </a>
 
         </div>
-
-    </div>
-
-    <!-- BUTTON -->
-    <div class="flex justify-end">
-
-        <a href="/mengajar/create"
-           class="px-5 py-3 rounded-2xl bg-blue-600 text-white font-semibold shadow-lg hover:scale-105 transition">
-
-            + Tambah Penugasan
-
-        </a>
 
     </div>
 
@@ -74,15 +71,19 @@
 
             <div class="mt-6 flex gap-2">
 
-                <a href="{{ route('mengajar.edit',$item->id) }}"
-                    class="flex-1 bg-yellow-500 text-white py-2 rounded-xl text-center hover:bg-yellow-600 transition">
+                <a href="{{ route('mengajar.edit', $item->id) }}"
+                   class="flex-1 bg-yellow-500 text-white py-2 rounded-xl text-center hover:bg-yellow-600 transition">
+
                     ✏️ Edit
+
                 </a>
 
-                <a href="{{ route('mengajar.destroy',$item->id) }}"
-                    onclick="return confirm('Yakin ingin menghapus data ini?')"
-                    class="flex-1 bg-red-500 text-white py-2 rounded-xl text-center hover:bg-red-600 transition">
+                <a href="{{ route('mengajar.destroy', $item->id) }}"
+                   onclick="return confirm('Yakin ingin menghapus data ini?')"
+                   class="flex-1 bg-red-500 text-white py-2 rounded-xl text-center hover:bg-red-600 transition">
+
                     🗑️ Hapus
+
                 </a>
 
             </div>
