@@ -17,7 +17,7 @@
             </h1>
 
             <p class="text-indigo-100 mt-2 text-sm">
-                Kelola nilai tugas, UTS, UAS dan otomatis hitung nilai akhir
+                Kelola nilai Ulangan, UTS, UAS dan otomatis hitung nilai akhir
             </p>
 
         </div>
@@ -43,7 +43,7 @@
                     required>
                 <option value="" data-kelas="">👤 Pilih Siswa</option>
                 @foreach($siswa as $s)
-                    <option value="{{ $s->id }}" data-kelas="{{ $s->kelas }}">{{ $s->nama }} (Kelas {{ $s->kelas }})</option>
+                    <option value="{{ $s->id }}" data-kelas="{{ $s->kelas }}">{{ $s->nama }} ( {{ $s->kelas }})</option>
                 @endforeach
             </select>
 
@@ -55,7 +55,7 @@
                 <option value="" data-kelas="">📚 Pilih Mata Pelajaran</option>
                 @if(isset($user) && $user->role === 'guru')
                     @foreach($mengajars as $m)
-                        <option value="{{ $m->mapel->id }}" data-kelas="{{ $m->kelas }}">{{ $m->mapel->nama_mapel }} (Kelas {{ $m->kelas }})</option>
+                        <option value="{{ $m->mapel->id }}" data-kelas="{{ $m->kelas }}">{{ $m->mapel->nama_mapel }} ( {{ $m->kelas }})</option>
                     @endforeach
                 @else
                     @foreach($mengajars as $m)
@@ -86,12 +86,12 @@
                 });
             </script>
 
-            <!-- TUGAS -->
+            <!-- ULANGAN -->
             <input type="number"
-                   name="tugas"
+                   name="ulangan"
                    min="0"
                    max="100"
-                   placeholder="📝 Nilai Tugas"
+                   placeholder="📝 Nilai Ulangan"
                    class="p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none"
                    required>
 
@@ -177,7 +177,7 @@
                     </td>
 
                     <td class="p-4 text-center">
-                        {{ $n->tugas }}
+                        {{ $n->ulangan }}
                     </td>
 
                     <td class="p-4 text-center">
