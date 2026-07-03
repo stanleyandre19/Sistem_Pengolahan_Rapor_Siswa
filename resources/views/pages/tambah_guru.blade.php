@@ -2,90 +2,144 @@
 
 @section('content')
 
-<div class="max-w-2xl mx-auto">
+<div class="max-w-3xl mx-auto">
 
     <div class="mb-6">
         <h1 class="text-3xl font-bold text-gray-800">
             👩‍🏫 Tambah Data Guru
         </h1>
 
-        <p class="text-gray-500">
-            Data guru dan akun login akan dibuat otomatis.
+        <p class="text-gray-500 mt-2">
+            Silakan isi data guru. Akun login akan dibuat secara otomatis.
         </p>
     </div>
 
-    <div class="bg-white p-8 rounded-3xl shadow-lg border">
+    <div class="bg-white rounded-3xl shadow-xl border border-gray-200 p-8">
 
-        <form action="/guru" method="POST" class="space-y-5">
+        <form action="/guru" method="POST">
+
             @csrf
 
             {{-- Nama Guru --}}
-            <div>
-                <label class="block font-semibold text-gray-700 mb-2">
-                    Nama Guru
+            <div class="mb-5">
+
+                <label class="block font-semibold mb-2">
+                    Nama Guru <span class="text-red-500">*</span>
                 </label>
 
-                <input type="text"
-                       name="nama"
-                       required
-                       class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-400">
+                <input
+                    type="text"
+                    name="nama"
+                    value="{{ old('nama') }}"
+                    placeholder="Masukkan nama lengkap guru"
+                    class="w-full p-3 rounded-xl border-2 border-gray-300 bg-gray-50
+                    focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-200 outline-none transition">
+
+                @error('nama')
+                    <small class="text-red-500">{{ $message }}</small>
+                @enderror
+
             </div>
 
             {{-- NIP --}}
-            <div>
-                <label class="block font-semibold text-gray-700 mb-2">
-                    NIP
+            <div class="mb-5">
+
+                <label class="block font-semibold mb-2">
+                    NIP <span class="text-red-500">*</span>
                 </label>
 
-                <input type="text"
-                       name="nip"
-                       required
-                       class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-400">
+                <input
+                    type="text"
+                    name="nip"
+                    value="{{ old('nip') }}"
+                    placeholder="Masukkan NIP Guru"
+                    class="w-full p-3 rounded-xl border-2 border-gray-300 bg-gray-50
+                    focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-200 outline-none transition">
+
+                @error('nip')
+                    <small class="text-red-500">{{ $message }}</small>
+                @enderror
+
             </div>
 
+            <hr class="my-8">
 
-
-            <hr>
-
-            <h3 class="text-lg font-bold text-blue-600">
+            <h2 class="text-xl font-bold text-blue-600 mb-6">
                 🔐 Akun Login Guru
-            </h3>
+            </h2>
 
             {{-- Email --}}
-            <div>
-                <label class="block font-semibold text-gray-700 mb-2">
-                    Email
+            <div class="mb-5">
+
+                <label class="block font-semibold mb-2">
+                    Email <span class="text-red-500">*</span>
                 </label>
 
-                <input type="email"
-                       name="email"
-                       required
-                       class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-400">
+                <input
+                    type="email"
+                    name="email"
+                    value="{{ old('email') }}"
+                    placeholder="Masukkan Email"
+                    class="w-full p-3 rounded-xl border-2 border-gray-300 bg-gray-50
+                    focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-200 outline-none transition">
+
+                @error('email')
+                    <small class="text-red-500">{{ $message }}</small>
+                @enderror
+
             </div>
 
             {{-- Password --}}
-            <div>
-                <label class="block font-semibold text-gray-700 mb-2">
-                    Password
+            <div class="mb-5">
+
+                <label class="block font-semibold mb-2">
+                    Password <span class="text-red-500">*</span>
                 </label>
 
-                <input type="password"
-                       name="password"
-                       required
-                       class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-400">
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Minimal 8 karakter"
+                    class="w-full p-3 rounded-xl border-2 border-gray-300 bg-gray-50
+                    focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-200 outline-none transition">
+
             </div>
 
-            <div class="flex justify-between pt-4">
+            {{-- Konfirmasi Password --}}
+            <div class="mb-5">
+
+                <label class="block font-semibold mb-2">
+                    Konfirmasi Password <span class="text-red-500">*</span>
+                </label>
+
+                <input
+                    type="password"
+                    name="password_confirmation"
+                    placeholder="Masukkan kembali password"
+                    class="w-full p-3 rounded-xl border-2 border-gray-300 bg-gray-50
+                    focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-200 outline-none transition">
+
+                @error('password')
+                    <small class="text-red-500">
+                        {{ $message }}
+                    </small>
+                @enderror
+
+            </div>
+
+            <div class="flex justify-between mt-8">
 
                 <a href="/guru"
-                   class="text-gray-500 hover:text-gray-700">
+                    class="px-5 py-3 rounded-xl bg-gray-200 hover:bg-gray-300">
+
                     ← Kembali
+
                 </a>
 
-                <button type="submit"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl shadow-lg">
+                <button
+                    class="px-7 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white shadow-lg">
 
-                    Simpan Guru
+                    💾 Simpan Guru
 
                 </button>
 
