@@ -98,15 +98,15 @@
                 window.onload = filterMapel;
             </script>
 
-            {{-- Tugas --}}
+            {{-- Ulangan --}}
             <div>
                 <label class="block font-semibold text-gray-700 mb-2">
-                    Nilai Tugas
+                    Nilai Ulangan
                 </label>
 
                 <input type="number"
-                       name="tugas"
-                       value="{{ $data->tugas }}"
+                       name="ulangan"
+                       value="{{ $data->ulangan }}"
                        class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-green-400">
             </div>
 

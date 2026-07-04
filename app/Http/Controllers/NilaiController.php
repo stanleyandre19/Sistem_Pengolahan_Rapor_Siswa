@@ -46,7 +46,7 @@ class NilaiController extends Controller
         $request->validate([
             'siswa_id' => 'required',
             'mapel_id' => 'required',
-            'tugas' => 'required|numeric|min:0|max:100',
+            'ulangan' => 'required|numeric|min:0|max:100',
             'uts' => 'required|numeric|min:0|max:100',
             'uas' => 'required|numeric|min:0|max:100',
         ]);
@@ -54,10 +54,10 @@ class NilaiController extends Controller
         Nilai::create([
             'siswa_id'   => $request->siswa_id,
             'mapel_id'   => $request->mapel_id,
-            'tugas'      => $request->tugas,
+            'ulangan'      => $request->ulangan,
             'uts'        => $request->uts,
             'uas'        => $request->uas,
-            'nilai_akhir'=> ($request->tugas + $request->uts + $request->uas) / 3,
+            'nilai_akhir'=> ($request->ulangan + $request->uts + $request->uas) / 3,
         ]);
 
         return redirect('/nilai');
@@ -92,7 +92,7 @@ class NilaiController extends Controller
         $request->validate([
             'siswa_id' => 'required',
             'mapel_id' => 'required',
-            'tugas' => 'required|numeric|min:0|max:100',
+            'ulangan' => 'required|numeric|min:0|max:100',
             'uts' => 'required|numeric|min:0|max:100',
             'uas' => 'required|numeric|min:0|max:100',
         ]);
@@ -102,10 +102,10 @@ class NilaiController extends Controller
         $data->update([
             'siswa_id'   => $request->siswa_id,
             'mapel_id'   => $request->mapel_id,
-            'tugas'      => $request->tugas,
+            'ulangan'      => $request->ulangan,
             'uts'        => $request->uts,
             'uas'        => $request->uas,
-            'nilai_akhir'=> ($request->tugas + $request->uts + $request->uas) / 3,
+            'nilai_akhir'=> ($request->ulangan + $request->uts + $request->uas) / 3,
         ]);
 
         return redirect('/nilai');
