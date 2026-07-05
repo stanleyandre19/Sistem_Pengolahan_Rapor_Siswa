@@ -24,4 +24,11 @@ class Nilai extends Model
     {
         return $this->belongsTo(Mapel::class);
     }
+    // BOBOT NILAI (30% - 30% - 40%)
+    public function hitungNilaiAkhir($ulangan, $uts, $uas)
+    {
+        return ($ulangan * 0.3) +
+               ($uts * 0.3) +
+               ($uas * 0.4);
+    }
 }

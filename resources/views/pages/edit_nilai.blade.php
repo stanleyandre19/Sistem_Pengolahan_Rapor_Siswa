@@ -36,7 +36,7 @@
                     <option value="" data-kelas="">👤 Pilih Siswa</option>
                     @foreach($siswa as $s)
                         <option value="{{ $s->id }}" data-kelas="{{ $s->kelas }}" {{ $data->siswa_id == $s->id ? 'selected' : '' }}>
-                            {{ $s->nama }} (Kelas {{ $s->kelas }})
+                            {{ $s->nama }} ({{ $s->kelas }})
                         </option>
                     @endforeach
                 </select>
@@ -56,7 +56,7 @@
                     @if(isset($user) && $user->role === 'guru')
                         @foreach($mengajars as $m)
                             <option value="{{ $m->mapel->id }}" data-kelas="{{ $m->kelas }}" {{ $data->mapel_id == $m->mapel->id && $data->siswa->kelas == $m->kelas ? 'selected' : '' }}>
-                                {{ $m->mapel->nama_mapel }} (Kelas {{ $m->kelas }})
+                                {{ $m->mapel->nama_mapel }} ( {{ $m->kelas }})
                             </option>
                         @endforeach
                     @else

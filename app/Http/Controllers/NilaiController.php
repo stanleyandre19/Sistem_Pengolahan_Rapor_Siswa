@@ -98,17 +98,24 @@ class NilaiController extends Controller
         ]);
 
         $data = Nilai::findOrFail($id);
+        $nilai = new Nilai();
 
-        $data->update([
-            'siswa_id'   => $request->siswa_id,
-            'mapel_id'   => $request->mapel_id,
-            'ulangan'      => $request->ulangan,
-            'uts'        => $request->uts,
-            'uas'        => $request->uas,
-            'nilai_akhir'=> ($request->ulangan + $request->uts + $request->uas) / 3,
-        ]);
+       $data->update([
+    'siswa_id' => $request->siswa_id,
+    'mapel_id' => $request->mapel_id,
+    'ulangan'  => $request->ulangan,
+    'uts'      => $request->uts,
+    'uas'      => $request->uas,
 
-        return redirect('/nilai');
+    // NILAI AKHIR OTOMATIS HITUNG
+    'nilai_akhir' => $nilai->hitungNilaiAkhir(
+        $request->ulangan,
+        $request->uts,
+        $request->uas
+    ),
+]);
+
+return redirect('/nilai');
     }
 
     public function destroy($id)

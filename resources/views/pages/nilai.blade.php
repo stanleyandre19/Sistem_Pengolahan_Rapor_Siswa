@@ -147,7 +147,7 @@
                     <th class="p-4 text-center">No</th>
                     <th class="p-4 text-left">Nama Siswa</th>
                     <th class="p-4 text-left">Mapel</th>
-                    <th class="p-4 text-center">Tugas</th>
+                    <th class="p-4 text-center">Ulangan</th>
                     <th class="p-4 text-center">UTS</th>
                     <th class="p-4 text-center">UAS</th>
                     <th class="p-4 text-center">Nilai Akhir</th>
