@@ -33,6 +33,25 @@
 
     </div>
 
+    @if(isset($tahun_aktif) && $tahun_aktif)
+    <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-center justify-between shadow-sm">
+        <div class="flex items-center gap-3">
+            <span class="text-xl">📅</span>
+            <div>
+                <h4 class="text-sm font-semibold text-amber-800">Tahun Ajaran Aktif</h4>
+                <p class="text-xs text-amber-700">Periode Berjalan: <span class="font-bold">{{ $tahun_aktif->tahun_ajaran }}</span> — Semester <span class="font-bold">{{ $tahun_aktif->semester }}</span></p>
+            </div>
+        </div>
+        <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-200 text-amber-800 animate-pulse">
+            Aktif
+        </span>
+    </div>
+    @else
+    <div class="bg-red-50 border border-red-200 rounded-2xl p-4 text-center text-sm text-red-700 shadow-sm">
+        ⚠️ Belum ada Tahun Ajaran yang berstatus 'Aktif' di database. Silakan isi dan aktifkan di phpMyAdmin.
+    </div>
+    @endif
+
     <div class="bg-white/80 backdrop-blur-xl border shadow-md rounded-2xl p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
 
         <form method="GET" action="/siswa" class="w-full md:w-auto flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
