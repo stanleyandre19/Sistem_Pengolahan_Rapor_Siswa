@@ -109,10 +109,10 @@
                         <td class="label">Kelas</td><td class="colon">:</td><td class="value">{{ $siswa->kelas }}</td>
                     </tr>
                     <tr>
-                        <td class="label">Semester</td><td class="colon">:</td><td class="value">Ganjil</td>
+                        <td class="label">Semester</td><td class="colon">:</td><td class="value">{{ $tahun_aktif->semester ?? 'Ganjil' }}</td>
                     </tr>
                     <tr>
-                        <td class="label">Tahun Ajaran</td><td class="colon">:</td><td class="value">2025/2026</td>
+                        <td class="label">Tahun Ajaran</td><td class="colon">:</td><td class="value">{{ $tahun_aktif->tahun_ajaran ?? '2025/2026' }}</td>
                     </tr>
                 </table>
             </td>
@@ -170,12 +170,13 @@
                 <tr>
                     <td class="text-center">{{ $index + 1 }}</td>
                     <td>{{ $n->mapel->nama_mapel ?? 'Mapel Dihapus' }}</td>
-                    <td class="text-center">75</td> <td class="text-center">{{ $nilaiAkhir }}</td>
+                    <td class="text-center">75</td> 
+                    <td class="text-center">{{ $nilaiAkhir }}</td>
                     <td class="text-center text-bold">{{ $predikat }}</td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5" class="text-center" style="padding: 20px;">Belum ada data nilai.</td>
+                    <td colspan="5" class="text-center" style="padding: 20px;">Belum ada data nilai pada semester ini.</td>
                 </tr>
             @endforelse
 
@@ -202,30 +203,29 @@
         </tfoot>
     </table>
     
-    <!-- TANDA TANGAN -->
-<table style="width:100%; margin-top:60px;">
-    <tr>
-        <td style="width:50%; text-align:center;">
-            <div style="font-size:14px;">
-                Orang Tua / Wali
-            </div>
+    <table style="width:100%; margin-top:60px;">
+        <tr>
+            <td style="width:50%; text-align:center;">
+                <div style="font-size:14px;">
+                    Orang Tua / Wali
+                </div>
 
-            <div style="height:80px;"></div>
+                <div style="height:80px;"></div>
 
-            <div style="width:220px; margin:auto; border-bottom:1px solid black;"></div>
-        </td>
+                <div style="width:220px; margin:auto; border-bottom:1px solid black;"></div>
+            </td>
 
-        <td style="width:50%; text-align:center;">
-            <div style="font-size:14px;">
-                Wali Kelas
-            </div>
+            <td style="width:50%; text-align:center;">
+                <div style="font-size:14px;">
+                    Wali Kelas
+                </div>
 
-            <div style="height:80px;"></div>
+                <div style="height:80px;"></div>
 
-            <div style="width:220px; margin:auto; border-bottom:1px solid black;"></div>
-        </td>
-    </tr>
-</table>
+                <div style="width:220px; margin:auto; border-bottom:1px solid black;"></div>
+            </td>
+        </tr>
+    </table>
 
 </body>
 </html>

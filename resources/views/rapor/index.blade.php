@@ -175,7 +175,7 @@
                             <a href="{{ route('rapor.pdf',$siswa->id) }}"
                                class="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-5 py-3 rounded-xl font-semibold shadow-lg hover:scale-105 transition">
 
-                                🖨️ Download PDF
+                                🖨️ PDF
 
                             </a>
 

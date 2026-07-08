@@ -4,7 +4,6 @@
 
 <div class="max-w-7xl mx-auto space-y-6">
 
-    <!-- HEADER -->
     <div class="relative overflow-hidden rounded-3xl shadow-2xl">
 
         <div class="absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600"></div>
@@ -20,11 +19,20 @@
                 Kelola nilai Ulangan, UTS, UAS dan otomatis hitung nilai akhir
             </p>
 
+            @if(isset($tahun_aktif))
+            <div class="inline-block mt-4 bg-white/20 backdrop-blur-md px-4 py-1.5 rounded-xl border border-white/30 text-xs font-bold text-amber-300 uppercase tracking-wider">
+                📅 Periode Berjalan: {{ $tahun_aktif->tahun_ajaran }} — Semester {{ $tahun_aktif->semester }}
+            </div>
+            @else
+            <div class="inline-block mt-4 bg-red-500/20 backdrop-blur-md px-4 py-1.5 rounded-xl border border-red-500/30 text-xs font-bold text-red-200 uppercase tracking-wider">
+                ⚠️ Belum ada Tahun Ajaran yang Aktif!
+            </div>
+            @endif
+
         </div>
 
     </div>
 
-    <!-- FORM CARD -->
     <div class="bg-white rounded-3xl shadow-xl border p-8">
 
         <h2 class="text-lg font-bold text-gray-700 mb-6">
@@ -36,7 +44,8 @@
 
             @csrf
 
-            <!-- NAMA SISWA DROPDOWN -->
+            <input type="hidden" name="tahun_ajaran_id" value="{{ $tahun_aktif->id ?? '' }}">
+
             <select name="siswa_id"
                     id="siswa_id"
                     class="p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none"
@@ -47,7 +56,6 @@
                 @endforeach
             </select>
 
-            <!-- MAPEL DROPDOWN -->
             <select name="mapel_id"
                     id="mapel_id"
                     class="p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none"
@@ -86,7 +94,6 @@
                 });
             </script>
 
-            <!-- ULANGAN -->
             <input type="number"
                    name="ulangan"
                    min="0"
@@ -95,7 +102,6 @@
                    class="p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none"
                    required>
 
-            <!-- UTS -->
             <input type="number"
                    name="uts"
                    min="0"
@@ -104,7 +110,6 @@
                    class="p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none"
                    required>
 
-            <!-- UAS -->
             <input type="number"
                    name="uas"
                    min="0"
@@ -124,7 +129,6 @@
 
     </div>
 
-    <!-- TABLE CARD -->
     <div class="bg-white rounded-3xl shadow-xl border overflow-hidden">
 
         <div class="p-6 border-b bg-gray-50 flex justify-between items-center">
@@ -147,6 +151,7 @@
                     <th class="p-4 text-center">No</th>
                     <th class="p-4 text-left">Nama Siswa</th>
                     <th class="p-4 text-left">Mapel</th>
+                    <th class="p-4 text-center">Tahun Ajaran</th>
                     <th class="p-4 text-center">Ulangan</th>
                     <th class="p-4 text-center">UTS</th>
                     <th class="p-4 text-center">UAS</th>
@@ -174,6 +179,10 @@
                         <span class="px-3 py-1 rounded-full text-xs bg-indigo-100 text-indigo-700">
                             {{ $n->mapel->nama_mapel ?? 'Mapel Dihapus' }}
                         </span>
+                    </td>
+
+                    <td class="p-4 text-center text-xs font-semibold text-gray-600">
+                        {{ $n->tahunAjaran->tahun_ajaran ?? '-' }} ({{ $n->tahunAjaran->semester ?? '-' }})
                     </td>
 
                     <td class="p-4 text-center">
@@ -222,7 +231,7 @@
 
                 <tr>
 
-                    <td colspan="8"
+                    <td colspan="9"
                         class="py-16 text-center text-gray-400">
 
                         Belum ada data nilai 😢

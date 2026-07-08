@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Nilai;
 use App\Models\Siswa;
+use App\Models\TahunAjaran; 
 
 class NilaiController extends Controller
 {
     public function index()
     {
         $user = auth()->user();
+        
+        // <-- 2. AMBIL TAHUN AJARAN YANG SEDANG AKTIF -->
+        $tahun_aktif = TahunAjaran::where('status', 'Aktif')->first();
         
         if ($user->role === 'guru') {
             $guruId = $user->guru?->id;
@@ -21,7 +25,7 @@ class NilaiController extends Controller
                 $mapelIds = $mengajars->pluck('mapel_id')->unique();
                 
                 $siswa = Siswa::whereIn('kelas', $kelas_diajar)->get();
-                $data = Nilai::with(['siswa', 'mapel'])
+                $data = Nilai::with(['siswa', 'mapel', 'tahunAjaran']) // Tambah eager load relation
                     ->whereIn('mapel_id', $mapelIds)
                     ->whereHas('siswa', function($q) use ($kelas_diajar) {
                         $q->whereIn('kelas', $kelas_diajar);
@@ -33,12 +37,13 @@ class NilaiController extends Controller
             }
         } else {
             // Admin
-            $data = Nilai::with(['siswa', 'mapel'])->get();
+            $data = Nilai::with(['siswa', 'mapel', 'tahunAjaran'])->get(); // Tambah eager load relation
             $siswa = Siswa::all();
             $mengajars = \App\Models\Mapel::all(); // Untuk admin semua mapel
         }
 
-        return view('pages.nilai', compact('data', 'siswa', 'mengajars', 'user'));
+        // <-- 3. MASUKKAN 'tahun_aktif' KE COMPACT AGAR BISA DIBACA DI BLADE -->
+        return view('pages.nilai', compact('data', 'siswa', 'mengajars', 'user', 'tahun_aktif'));
     }
 
     public function store(Request $request)
@@ -46,18 +51,23 @@ class NilaiController extends Controller
         $request->validate([
             'siswa_id' => 'required',
             'mapel_id' => 'required',
+            'tahun_ajaran_id' => 'required', // <-- 4. VALIDASI ID TAHUN AJARANNYA
             'ulangan' => 'required|numeric|min:0|max:100',
             'uts' => 'required|numeric|min:0|max:100',
             'uas' => 'required|numeric|min:0|max:100',
         ]);
 
+        $nilai = new Nilai();
+
         Nilai::create([
-            'siswa_id'   => $request->siswa_id,
-            'mapel_id'   => $request->mapel_id,
-            'ulangan'      => $request->ulangan,
-            'uts'        => $request->uts,
-            'uas'        => $request->uas,
-            'nilai_akhir'=> ($request->ulangan + $request->uts + $request->uas) / 3,
+            'siswa_id'        => $request->siswa_id,
+            'tahun_ajaran_id' => $request->tahun_ajaran_id, // <-- 5. MASUKKAN KE DATABASE
+            'mapel_id'        => $request->mapel_id,
+            'ulangan'         => $request->ulangan,
+            'uts'             => $request->uts,
+            'uas'             => $request->uas,
+            // Menggunakan rumus bobot presentase milikmu yang ada di Model Nilai agar sinkron
+            'nilai_akhir'     => $nilai->hitungNilaiAkhir($request->ulangan, $request->uts, $request->uas),
         ]);
 
         return redirect('/nilai');
@@ -100,22 +110,16 @@ class NilaiController extends Controller
         $data = Nilai::findOrFail($id);
         $nilai = new Nilai();
 
-       $data->update([
-    'siswa_id' => $request->siswa_id,
-    'mapel_id' => $request->mapel_id,
-    'ulangan'  => $request->ulangan,
-    'uts'      => $request->uts,
-    'uas'      => $request->uas,
+        $data->update([
+            'siswa_id' => $request->siswa_id,
+            'mapel_id' => $request->mapel_id,
+            'ulangan'  => $request->ulangan,
+            'uts'      => $request->uts,
+            'uas'      => $request->uas,
+            'nilai_akhir' => $nilai->hitungNilaiAkhir($request->ulangan, $request->uts, $request->uas),
+        ]);
 
-    // NILAI AKHIR OTOMATIS HITUNG
-    'nilai_akhir' => $nilai->hitungNilaiAkhir(
-        $request->ulangan,
-        $request->uts,
-        $request->uas
-    ),
-]);
-
-return redirect('/nilai');
+        return redirect('/nilai');
     }
 
     public function destroy($id)
