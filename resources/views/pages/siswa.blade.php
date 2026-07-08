@@ -4,7 +4,6 @@
 
 <div class="max-w-7xl mx-auto space-y-6">
 
-    <!-- HERO HEADER -->
     <div class="relative overflow-hidden rounded-3xl shadow-xl">
 
         <div class="absolute inset-0 bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500"></div>
@@ -34,16 +33,39 @@
 
     </div>
 
-    <!-- SEARCH -->
     <div class="bg-white/80 backdrop-blur-xl border shadow-md rounded-2xl p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
 
-        <form method="GET" action="/siswa" class="w-full md:w-96">
+        <form method="GET" action="/siswa" class="w-full md:w-auto flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
 
-            <input type="text"
-                   name="search"
-                   value="{{ request('search') }}"
-                   placeholder="🔍 Cari nama / NIS / kelas..."
-                   class="w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-blue-400 outline-none shadow-sm">
+            <div class="relative w-full md:w-80">
+                <input type="text"
+                       name="search"
+                       value="{{ request('search') }}"
+                       placeholder="🔍 Cari nama / NIS / kelas..."
+                       class="w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-blue-400 outline-none shadow-sm text-sm">
+            </div>
+
+            <div class="relative w-full sm:w-48">
+                <select name="filter_kelas" 
+                        onchange="this.form.submit()"
+                        class="w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-blue-400 outline-none shadow-sm text-sm bg-white cursor-pointer appearance-none">
+                    <option value="">🏫 Semua Kelas</option>
+                    @foreach($list_kelas as $kls)
+                        <option value="{{ $kls }}" {{ request('filter_kelas') == $kls ? 'selected' : '' }}>
+                             {{ $kls }}
+                        </option>
+                    @endforeach
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                </div>
+            </div>
+
+            @if(request('search') || request('filter_kelas'))
+                <a href="/siswa" class="text-xs text-red-500 hover:underline flex items-center justify-center sm:justify-start px-2 py-1">
+                    ❌ Hapus Filter
+                </a>
+            @endif
 
         </form>
 
@@ -58,7 +80,6 @@
 
     </div>
 
-    <!-- TABLE -->
     <div class="bg-white rounded-3xl shadow-xl overflow-hidden border">
 
         <table class="w-full text-sm">

@@ -7,19 +7,29 @@ use Illuminate\Http\Request;
 
 class SiswaController extends Controller
 {
-    // TAMPIL DATA + SEARCH
+    // TAMPIL DATA + SEARCH + FILTER KELAS
     public function index(Request $request)
     {
         $query = Siswa::query();
-
-        // FILTER HAK AKSES
         $user = \Illuminate\Support\Facades\Auth::user();
         
+        // 1. AMBIL DAFTAR KELAS UNTUK DROPDOWN FILTER
+        // Kita siapkan variabel $list_kelas agar dropdown di web tidak hardcoded
         if ($user->role === 'walikelas') {
-            // Wali kelas hanya melihat siswanya
+            $list_kelas = collect([$user->walikelas->kelas]);
+        } elseif ($user->role === 'guru') {
+            $guruId = $user->guru->id;
+            $mengajars = \App\Models\Mengajar::where('guru_id', $guruId)->get();
+            $list_kelas = $mengajars->pluck('kelas')->unique();
+        } else {
+            // Jika admin, ambil semua kelas unik yang terdaftar di tabel siswa
+            $list_kelas = Siswa::pluck('kelas')->unique();
+        }
+
+        // 2. FILTER HAK AKSES DASAR
+        if ($user->role === 'walikelas') {
             $query->where('kelas', $user->walikelas->kelas);
         } elseif ($user->role === 'guru') {
-            // Guru hanya melihat siswa di kelas yang dia ajarkan
             $guruId = $user->guru->id;
             $mengajars = \App\Models\Mengajar::where('guru_id', $guruId)->get();
             $kelas_diajar = $mengajars->pluck('kelas')->unique();
@@ -27,7 +37,12 @@ class SiswaController extends Controller
             $query->whereIn('kelas', $kelas_diajar);
         }
 
-        // FITUR SEARCH
+        // 3. TAMBAHAN: FITUR FILTER BERDASARKAN DROPDOWN KELAS YANG DIPILIH
+        if ($request->filled('filter_kelas')) {
+            $query->where('kelas', $request->filter_kelas);
+        }
+
+        // 4. FITUR SEARCH
         if ($request->search) {
             $query->where(function($q) use ($request) {
                 $q->where('nama', 'like', '%' . $request->search . '%')
@@ -38,7 +53,8 @@ class SiswaController extends Controller
 
         $data = $query->latest()->get();
 
-        return view('pages.siswa', compact('data', 'user'));
+        // Kirimkan variabel $list_kelas ke view
+        return view('pages.siswa', compact('data', 'user', 'list_kelas'));
     }
 
     // SIMPAN DATA
@@ -78,7 +94,7 @@ class SiswaController extends Controller
             'kelas' => 'required',
         ]);
 
-        $siswa = Siswa::findOrFail($id);
+        $siswa = Sis5wa::findOrFail($id);
 
         $data = $request->all();
 
