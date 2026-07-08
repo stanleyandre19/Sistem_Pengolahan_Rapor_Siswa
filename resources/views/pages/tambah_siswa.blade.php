@@ -16,8 +16,7 @@
 
     <div class="bg-white p-8 rounded-3xl shadow-lg border">
 
-        <form action="/siswa" method="POST" enctype="multipart/form-data" class="space-y-5">
-
+        <form action="/siswa/simpan" method="POST" enctype="multipart/form-data">
             @csrf
 
             {{-- Nama --}}

@@ -10,6 +10,6 @@ class Siswa extends Model
         'nama',
         'nis',
         'kelas',
-        'foto'
+        'foto',
     ];
 }

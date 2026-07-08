@@ -85,7 +85,7 @@ Route::middleware(['auth', 'role:admin,guru,walikelas'])->group(function () {
     |--------------------------------------------------------------------------
     | WALI KELAS CRUD (FIX 404 + FULL)
     |--------------------------------------------------------------------------
-    */
+    |*/
     Route::get('/walikelas', [WalikelasController::class, 'index']);
     Route::get('/walikelas/create', [WalikelasController::class, 'create']);
     Route::post('/walikelas/store', [WalikelasController::class, 'store']);
@@ -117,13 +117,13 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/register', [RegisterController::class, 'index']);
     Route::post('/register', [RegisterController::class, 'register']);
 
-    // SISWA
+    // SISWA (SUDAH DISINKRONKAN DENGAN SISWACONTROLLER)
     Route::prefix('siswa')->group(function () {
-        Route::post('/', [SiswaController::class, 'store']);
-        Route::get('/tambah', fn() => view('pages.tambah_siswa'));
-        Route::get('/edit/{id}', [SiswaController::class, 'edit']);
-        Route::post('/update/{id}', [SiswaController::class, 'update']);
-        Route::get('/hapus/{id}', [SiswaController::class, 'destroy']);
+        Route::get('/tambah', fn() => view('pages.tambah_siswa')); // Menggunakan file tambah_siswa yang multifungsi
+        Route::post('/simpan', [SiswaController::class, 'store']); // Mengarah ke method store()
+        Route::get('/edit/{id}', [SiswaController::class, 'edit']); // Mengarah ke method edit()
+        Route::post('/update/{id}', [SiswaController::class, 'update']); // Mengarah ke method update()
+        Route::get('/hapus/{id}', [SiswaController::class, 'destroy']); // Mengarah ke method destroy()
     });
 
     // GURU
@@ -144,29 +144,17 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/hapus/{id}', [MapelController::class, 'destroy']);
     });
 
-/*
-|--------------------------------------------------------------------------
-| MENGAJAR
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/mengajar', [MengajarController::class, 'index'])
-    ->name('mengajar.index');
-
-Route::get('/mengajar/create', [MengajarController::class, 'create'])
-    ->name('mengajar.create');
-
-Route::post('/mengajar/store', [MengajarController::class, 'store'])
-    ->name('mengajar.store');
-
-Route::get('/mengajar/edit/{mengajar}', [MengajarController::class, 'edit'])
-    ->name('mengajar.edit');
-
-Route::put('/mengajar/update/{mengajar}', [MengajarController::class, 'update'])
-    ->name('mengajar.update');
-
-Route::get('/mengajar/delete/{mengajar}', [MengajarController::class, 'destroy'])
-    ->name('mengajar.destroy');
+    /*
+    |--------------------------------------------------------------------------
+    | MENGAJAR
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/mengajar', [MengajarController::class, 'index'])->name('mengajar.index');
+    Route::get('/mengajar/create', [MengajarController::class, 'create'])->name('mengajar.create');
+    Route::post('/mengajar/store', [MengajarController::class, 'store'])->name('mengajar.store');
+    Route::get('/mengajar/edit/{mengajar}', [MengajarController::class, 'edit'])->name('mengajar.edit');
+    Route::put('/mengajar/update/{mengajar}', [MengajarController::class, 'update'])->name('mengajar.update');
+    Route::get('/mengajar/delete/{mengajar}', [MengajarController::class, 'destroy'])->name('mengajar.destroy');
 });
 
 /*

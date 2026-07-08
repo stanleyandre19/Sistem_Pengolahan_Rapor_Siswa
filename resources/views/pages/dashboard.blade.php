@@ -113,7 +113,7 @@
 
                         <a href="/rapor/{{ $s->id }}/pdf"
                            class="inline-block bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-4 py-1 rounded-lg text-xs shadow">
-                           Download PDF
+                           PDF
                         </a>
 
                     </td>
